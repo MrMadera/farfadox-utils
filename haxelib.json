@@ -4,7 +4,7 @@
     "license": "MIT",
     "tags": ["haxe"],
     "description": "No",
-    "version": "0.1",
+    "version": "0.1.0",
     "releasenote": "Changed name to farfadox-utils",
     "contributors": ["MrMadera", "Adrim23"]
 }
