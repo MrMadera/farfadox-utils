@@ -1,10 +1,10 @@
 {
-    "name": "me-custom-ui",
-    "url" : "https://github.com/MrMadera/me-custom-ui",
+    "name": "farfadox-utils",
+    "url" : "https://github.com/MrMadera/farfadox-utils",
     "license": "MIT",
     "tags": ["haxe"],
     "description": "No",
-    "version": "0.0.1",
-    "releasenote": "Initial release",
-    "contributors": ["MrMadera"]
+    "version": "0.1",
+    "releasenote": "Changed name to farfadox-utils",
+    "contributors": ["MrMadera", "Adrim23"]
 }
