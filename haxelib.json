@@ -1,0 +1,11 @@
+{
+    "name": "me-custom-ui",
+    "url" : "https://github.com/MrMadera/me-custom-ui",
+    "license": "MIT",
+    "tags": ["haxe"],
+    "description": "No",
+    "version": "0.0.1",
+    "classPath": "me/",
+    "releasenote": "Initial release, everything is working correctly.",
+    "contributors": ["MrMadera"]
+}
