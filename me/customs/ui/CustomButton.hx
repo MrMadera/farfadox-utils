@@ -1,6 +1,8 @@
-package customs.ui;
+package me.customs.ui;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 
@@ -18,8 +20,8 @@ class CustomButton extends FlxSpriteGroup
 
     // Optional stuff
     public var usingSounds:Bool = false;
-    public var selectButtonSound:String = '';
-    public var pressButtonSound:String = '';
+    public var selectButtonSoundPath:String = '';
+    public var pressButtonSoundPath:String = '';
 
     public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void)
     {
@@ -37,7 +39,6 @@ class CustomButton extends FlxSpriteGroup
         txt = new FlxText(0, 0, bg.width, text, size);
         txt.setFormat("VCR OSD Mono", size, txtColor, CENTER);
         txt.y = (bg.height / 2) - (txt.height / 2);
-        txt.antialiasing = ClientPrefs.data.antialiasing;
         add(txt);
     }
     
@@ -49,7 +50,7 @@ class CustomButton extends FlxSpriteGroup
         {
             if(!soundPlayed && usingSounds)
             {
-                if(selectButtonSound != '')  FlxG.sound.play(Paths.sound(selectButtonSound));
+                if(selectButtonSoundPath != '') try { FlxG.sound.play(selectButtonSoundPath); }
                 soundPlayed = true;
             }
             bg.makeGraphic(bgWidth, bgHeight, bgSelectedColor);
@@ -57,7 +58,7 @@ class CustomButton extends FlxSpriteGroup
             if(FlxG.mouse.justPressed)
             {
                 onPress();
-                if(pressButtonSound != '' && usingSounds) FlxG.sound.play(Paths.sound(pressButtonSound));
+                if(pressButtonSoundPath != '' && usingSounds) try { FlxG.sound.play(pressButtonSoundPath); }
             }
         }
         else
