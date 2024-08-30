@@ -16,10 +16,10 @@ class CustomButton extends FlxSpriteGroup
     public var bg:FlxSprite;
     public var txt:FlxText;
 
-    // Optional stuff for chart editor
+    // Optional stuff
     public var usingSounds:Bool = false;
-    public var selectButtonSound:String = ''; // chart_editor/overlap_buttons
-    public var pressButtonSound:String = ''; // chart_editor/press_buttons
+    public var selectButtonSound:String = '';
+    public var pressButtonSound:String = '';
 
     public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void)
     {
