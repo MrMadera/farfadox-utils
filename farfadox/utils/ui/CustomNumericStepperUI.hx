@@ -1,4 +1,4 @@
-package me.customs.ui;
+package farfadox.utils.ui;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -6,7 +6,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
-import me.customs.ui.CustomButton;
+import farfadox.utils.ui.CustomButton;
 
 class CustomNumericStepperUI extends FlxSpriteGroup
 {
