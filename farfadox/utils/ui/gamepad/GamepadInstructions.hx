@@ -1,4 +1,4 @@
-package farfadox.utils.ui;
+package farfadox.utils.ui.gamepad;
 
 import flixel.FlxSprite;
 import flixel.text.FlxText;
