@@ -11,6 +11,18 @@ class ExampleState extends FlxState
     public var west_button_ps4:GamepadInstructions;
     public var east_button_ps4:GamepadInstructions;
     public var north_button_ps4:GamepadInstructions;
+    public var directional_pad_up_button_ps4:GamepadInstructions;
+    public var directional_pad_down_button_ps4:GamepadInstructions;
+    public var directional_pad_left_button_ps4:GamepadInstructions;
+    public var directional_pad_right_button_ps4:GamepadInstructions;
+    public var left_stick_ps4:GamepadInstructions;
+    public var right_stick_ps4:GamepadInstructions;
+    public var left_stick_button_ps4:GamepadInstructions;
+    public var right_stick_button_ps4:GamepadInstructions;
+    public var left_bumper_button_ps4:GamepadInstructions;
+    public var right_bumper_button_ps4:GamepadInstructions;
+    public var left_trigger_button_ps4:GamepadInstructions;
+    public var right_trigger_button_ps4:GamepadInstructions;
 
     override function create()
     {
@@ -27,6 +39,42 @@ class ExampleState extends FlxState
         
         north_button_ps4 = new GamepadInstructions(50, 200, 'Talk', 30, NORTH_BUTTON, true, true);
         add(north_button_ps4);
+
+        directional_pad_up_button_ps4 = new GamepadInstructions(50, 250, 'Move up', 30, DIRECTIONAL_PAD_UP, true, true);
+        add(directional_pad_up_button_ps4);
+        
+        directional_pad_down_button_ps4 = new GamepadInstructions(50, 300, 'Move down', 30, DIRECTIONAL_PAD_DOWN, true, true);
+        add(directional_pad_down_button_ps4);
+        
+        directional_pad_left_button_ps4 = new GamepadInstructions(50, 350, 'Move left', 30, DIRECTIONAL_PAD_LEFT, true, true);
+        add(directional_pad_left_button_ps4);
+        
+        directional_pad_right_button_ps4 = new GamepadInstructions(50, 400, 'Move right', 30, DIRECTIONAL_PAD_RIGHT, true, true);
+        add(directional_pad_right_button_ps4);
+        
+        left_stick_ps4 = new GamepadInstructions(50, 450, 'Left stick', 30, LEFT_STICK, true, true);
+        add(left_stick_ps4);
+        
+        right_stick_ps4 = new GamepadInstructions(50, 500, 'Right stick', 30, RIGHT_STICK, true, true);
+        add(right_stick_ps4);
+        
+        left_stick_button_ps4 = new GamepadInstructions(50, 550, 'Left stick button', 30, LEFT_STICK_BUTTON, true, true);
+        add(left_stick_button_ps4);
+        
+        right_stick_button_ps4 = new GamepadInstructions(50, 600, 'Right stick button', 30, RIGHT_STICK_BUTTON, true, true);
+        add(right_stick_button_ps4);
+        
+        left_bumper_button_ps4 = new GamepadInstructions(50, 650, 'Left bumper button', 30, LEFT_BUMPER, true, true);
+        add(left_bumper_button_ps4);
+        
+        right_bumper_button_ps4 = new GamepadInstructions(350, 50, 'Right bumper button', 30, RIGHT_BUMPER, true, true);
+        add(right_bumper_button_ps4);
+        
+        left_trigger_button_ps4 = new GamepadInstructions(350, 100, 'Left trigger button', 30, LEFT_TRIGGER, true, true);
+        add(left_trigger_button_ps4);
+        
+        right_trigger_button_ps4 = new GamepadInstructions(350, 150, 'Right trigger button', 30, RIGHT_TRIGGER, true, true);
+        add(right_trigger_button_ps4);
 
         ConnectionChecker.checkConnection(BOTH);
     }
