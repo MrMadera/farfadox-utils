@@ -6,5 +6,10 @@
     "description": "farfadox-utils is a custom library used for Farfadox's Nether Rap",
     "version": "0.2.0",
     "releasenote": "Added new gamepad utils",
-    "contributors": ["MrMadera", "Adrim24"]
+    "contributors": ["MrMadera", "Adrim24"],
+    "dependencies": 
+    {
+        "flixel": "5.5.0",
+        "openfl": "9.3.2"
+    }
 }

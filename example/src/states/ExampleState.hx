@@ -1,6 +1,8 @@
 package states;
 
 import farfadox.utils.ui.gamepad.GamepadInstructions;
+import farfadox.utils.net.ConnectionChecker;
+
 import flixel.FlxState;
 
 class ExampleState extends FlxState
@@ -25,5 +27,7 @@ class ExampleState extends FlxState
         
         north_button_ps4 = new GamepadInstructions(50, 200, 'Talk', 30, NORTH_BUTTON, true, true);
         add(north_button_ps4);
+
+        ConnectionChecker.checkConnection(BOTH);
     }
 }
