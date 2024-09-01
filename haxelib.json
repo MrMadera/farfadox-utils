@@ -5,7 +5,7 @@
     "tags": ["haxe"],
     "description": "farfadox-utils is a custom library used for Farfadox's Nether Rap",
     "version": "0.2.0",
-    "releasenote": "Added new gamepad utils",
+    "releasenote": "New features",
     "contributors": ["MrMadera", "Adrim24"],
     "dependencies": 
     {
