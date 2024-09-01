@@ -41,14 +41,16 @@ class GamepadInstructions extends FlxSpriteGroup
     public var keyIcon:DeviceIcons;
     public var instructionText:FlxText;
 
-    public function new(x:Float, y:Float, instructionString:String, textSize:Int, action:DeviceActions, isGamepad:Bool)
+    public function new(x:Float, y:Float, instructionString:String, textSize:Int, action:DeviceActions, isGamepad:Bool, _antialiasing:Bool)
     {
         super(x, y);
 
-        keyIcon = new DeviceIcons(0, 0, action, isGamepad);
+        keyIcon = new DeviceIcons(0, 0, action, isGamepad, _antialiasing);
+        keyIcon.antialiasing = _antialiasing;
         add(keyIcon);
 
         instructionText = new FlxText(0, 0, 0, instructionString, textSize);
+        instructionText.antialiasing = _antialiasing;
         add(instructionText);
 
         instructionText.y = keyIcon.y + (keyIcon.height / 2) - (instructionText.height / 2);
