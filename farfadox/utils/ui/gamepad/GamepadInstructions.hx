@@ -4,6 +4,8 @@ import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
 
+import farfadox.utils.ui.gamepad.icons.DeviceIcons;
+
 enum DeviceActions
 {
     // Model: Xbox, PlayStation, Switch
@@ -36,20 +38,21 @@ enum DeviceActions
 
 class GamepadInstructions extends FlxSpriteGroup
 {
-    public var keyIcon:FlxSprite; //i'll change this for a custom class in the future
+    public var keyIcon:DeviceIcons;
     public var instructionText:FlxText;
 
-    public function new(x:Float, y:Float, instructionText:String, textSize:Int, action:DeviceActions)
+    public function new(x:Float, y:Float, instructionString:String, textSize:Int, action:DeviceActions, isGamepad:Bool)
     {
         super(x, y);
 
-        keyIcon = new FlxSprite().makeGraphic(50, 50, 0xFFFFFFFF);
+        keyIcon = new DeviceIcons(0, 0, action, isGamepad);
         add(keyIcon);
 
-        instructionText = new FlxText(0, 0, 0, instructionText, textSize);
+        instructionText = new FlxText(0, 0, 0, instructionString, textSize);
         add(instructionText);
-        
-        instructionText.x = keyIcon.x + keyIcon.width + 30;
+
+        instructionText.y = keyIcon.y + (keyIcon.height / 2) - (instructionText.height / 2);
+        instructionText.x = keyIcon.x + keyIcon.width + 10;
     }
 
     public function onChangeDevice()
