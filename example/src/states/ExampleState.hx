@@ -20,10 +20,10 @@ class ExampleState extends FlxState
         west_button_ps4 = new GamepadInstructions(50, 100, 'Interact', 30, WEST_BUTTON, true, true);
         add(west_button_ps4);
         
-        east_button_ps4 = new GamepadInstructions(50, 150, 'Jump', 30, EAST_BUTTON, true, true);
+        east_button_ps4 = new GamepadInstructions(50, 150, 'Back', 30, EAST_BUTTON, true, true);
         add(east_button_ps4);
         
-        north_button_ps4 = new GamepadInstructions(50, 200, 'Jump', 30, NORTH_BUTTON, true, true);
+        north_button_ps4 = new GamepadInstructions(50, 200, 'Talk', 30, NORTH_BUTTON, true, true);
         add(north_button_ps4);
     }
 }
