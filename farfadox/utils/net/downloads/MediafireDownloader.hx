@@ -6,11 +6,13 @@ import sys.ssl.Socket;
 import sys.net.Host;
 import sys.thread.Thread;
 import htmlparser.HtmlDocument;
+import haxe.zip.Uncompress;
 
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
 
-class MediafireDownloader {
+class MediafireDownloader 
+{
     public function new(url:String) 
     {
         Thread.create(function() 
@@ -20,6 +22,8 @@ class MediafireDownloader {
         trace("Fetching data...");
     }
 
+    public static var isDownloading:Bool = false;
+
     public static function downloadFile(url:String)
     {
         var http:Http = new Http(url);
@@ -27,6 +31,8 @@ class MediafireDownloader {
         var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
         var extension:String = url.substr(url.length - 3, url.length);
         outputFilePath += 'TheGrefg.' + extension;
+
+        isDownloading = true;
 
         trace('PATH: ' + outputFilePath + ', EXTENSION: ' + extension);
 
@@ -48,19 +54,19 @@ class MediafireDownloader {
         http.onBytes = function(b:haxe.io.Bytes) {
             trace('Downloaded bytes:', b.length);
             File.saveBytes(outputFilePath, b);
+            if(extension == 'zip') unZip(b);
+            isDownloading = false;
         }
 
         http.request(false);
     }
 
     //Get mediafire data
-
     public static function fetchMediafireData(url:String)
     {
         var http:Http = new Http(url);
         http.onData = function(d)
         {
-            trace('data', d);
             var doc:HtmlDocument = new HtmlDocument(d, true);
             var titles = doc.find("#downloadButton");
             var newURL = titles[0].getAttribute("href");
@@ -72,5 +78,10 @@ class MediafireDownloader {
             trace("Starting download...");
         }
         http.request();
+    }
+
+    public static function unZip(bytes:haxe.io.Bytes)
+    {
+        // code ...
     }
 }
