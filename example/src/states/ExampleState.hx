@@ -90,7 +90,7 @@ class ExampleState extends FlxState
 
         new FlxTimer().start(1, function(tmr:FlxTimer)
         {
-            new MediafireDownloader();
+            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file");
         });
     }
 }
