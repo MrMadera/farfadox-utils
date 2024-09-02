@@ -5,6 +5,7 @@ import sys.io.File;
 import sys.ssl.Socket;
 import sys.net.Host;
 import sys.thread.Thread;
+import htmlparser.HtmlDocument;
 
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
@@ -12,10 +13,10 @@ import sys.thread.Thread;
 class MediafireDownloader {
     public function new() 
     {
-        var url:String = "https://download1530.mediafire.com/mo0j9mvhgaqgtFg-q8ro9QekuPqljEvtTj8pNAGCRt0lqkVT0KR9shX8idDlcavwByAy-J_DI9OaWImEjLd9eMlq1bany71LtBXO4I1NNyGqYr0FqLMRmgU2V1SlS2NiMfi5Y6XVltt_RdrxeAVSChmUQo6uzpiQBY5MvPYRjnc/r9d03vvig4ayjoj/lider+de+la+haxe+gang+ligero.mp4";
+        var url:String = "https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file";
         Thread.create(function() 
         {
-            downloadFile(url);
+            fetchMediafireData(url);
         });
         trace("Download started...");
     }
@@ -51,5 +52,21 @@ class MediafireDownloader {
         }
 
         http.request(false);
+    }
+
+    //Get mediafire data
+
+    public static function fetchMediafireData(url:String)
+    {
+        var http:Http = new Http(url);
+        http.onData = function(d)
+        {
+            trace('data', d);
+            var doc:HtmlDocument = new HtmlDocument(d, true);
+            var titles = doc.find("#downloadButton");
+            var newURL = titles[0].getAttribute("href");
+            trace('NEW URL: ' + newURL);
+        }
+        http.request();
     }
 }
