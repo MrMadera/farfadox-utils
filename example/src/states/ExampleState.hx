@@ -1,9 +1,11 @@
 package states;
 
+import farfadox.utils.net.downloads.MediafireDownloader;
 import farfadox.utils.ui.gamepad.GamepadInstructions;
 import farfadox.utils.net.ConnectionChecker;
 
 import flixel.FlxState;
+import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 
 class ExampleState extends FlxState
@@ -85,5 +87,10 @@ class ExampleState extends FlxState
             connectionAvaible.screenCenter(X);
             add(connectionAvaible);
         }
+
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+        {
+            new MediafireDownloader();
+        });
     }
 }
