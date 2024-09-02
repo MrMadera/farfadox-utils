@@ -18,10 +18,10 @@ class MediafireDownloader {
         {
             fetchMediafireData(url);
         });
-        trace("Download started...");
+        trace("Fetching data...");
     }
 
-    public function downloadFile(url:String)
+    public static function downloadFile(url:String)
     {
         var http:Http = new Http(url);
 
@@ -66,6 +66,11 @@ class MediafireDownloader {
             var titles = doc.find("#downloadButton");
             var newURL = titles[0].getAttribute("href");
             trace('NEW URL: ' + newURL);
+            Thread.create(function() 
+            {
+                downloadFile(newURL);
+            });
+            trace("Starting download...");
         }
         http.request();
     }
