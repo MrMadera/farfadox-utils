@@ -4,6 +4,7 @@ import farfadox.utils.ui.gamepad.GamepadInstructions;
 import farfadox.utils.net.ConnectionChecker;
 
 import flixel.FlxState;
+import flixel.text.FlxText;
 
 class ExampleState extends FlxState
 {
@@ -23,6 +24,8 @@ class ExampleState extends FlxState
     public var right_bumper_button_ps4:GamepadInstructions;
     public var left_trigger_button_ps4:GamepadInstructions;
     public var right_trigger_button_ps4:GamepadInstructions;
+
+    public var connectionAvaible:FlxText;
 
     override function create()
     {
@@ -76,6 +79,11 @@ class ExampleState extends FlxState
         right_trigger_button_ps4 = new GamepadInstructions(350, 150, 'Right trigger button', 30, RIGHT_TRIGGER, true, true);
         add(right_trigger_button_ps4);
 
-        ConnectionChecker.checkConnection(BOTH);
+        if(ConnectionChecker.checkConnection(BOTH))
+        {
+            connectionAvaible = new FlxText(0, 1000, 0, 'Connection is avaible!', 40);
+            connectionAvaible.screenCenter(X);
+            add(connectionAvaible);
+        }
     }
 }
