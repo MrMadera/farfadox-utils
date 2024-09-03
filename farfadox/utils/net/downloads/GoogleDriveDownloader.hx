@@ -76,8 +76,13 @@ class GoogleDriveDownloader
     {
         socket = new Socket();
 
-        var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-        outputFilePath += 'downloads/' + fileName + '.' + extension;
+        var oldoutputFilePath:String = Sys.programPath();
+
+        var index = oldoutputFilePath.lastIndexOf("\\");
+
+        var outputFilePath = oldoutputFilePath.substr(0, index);
+        trace('Path before: ' + outputFilePath);
+        outputFilePath += '/downloads/' + fileName + '.' + extension;
 
         isDownloading = true;
         

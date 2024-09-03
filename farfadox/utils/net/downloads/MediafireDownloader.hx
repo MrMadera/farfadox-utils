@@ -12,6 +12,7 @@ import htmlparser.HtmlDocument;
 import haxe.zip.Uncompress;
 import sys.io.FileOutput;
 import sys.FileSystem;
+import lime.app.Application;
 
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
@@ -76,9 +77,14 @@ class MediafireDownloader
     {
         socket = new Socket();
 
-        var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
+        var oldoutputFilePath:String = Sys.programPath();
+
+        var index = oldoutputFilePath.lastIndexOf("\\");
+
+        var outputFilePath = oldoutputFilePath.substr(0, index);
+        trace('Path before: ' + outputFilePath);
         extension = url.substr(url.length - 3, url.length);
-        outputFilePath += 'downloads/' + fileName + '.' + extension;
+        outputFilePath += '/downloads/' + fileName + '.' + extension;
 
         isDownloading = true;
         
