@@ -306,9 +306,9 @@ class GoogleDriveDownloader
 
     private static function loadedBytes(b:Float):String
     {
-        if(b > 1000000000) return FlxMath.roundDecimal(b / 1024000000, 2) + "GB";
-        else if (b > 1000000) return FlxMath.roundDecimal(b / 1024000, 2) + "MB";
-        else if (b > 1000) return FlxMath.roundDecimal(b / 1024, 0) + "kB";
+        if(b > 1024000000) return FlxMath.roundDecimal(b / 1024000000, 2) + "GB";
+        else if (b > 1024000) return FlxMath.roundDecimal(b / 1024000, 2) + "MB";
+        else if (b > 1024) return FlxMath.roundDecimal(b / 1024, 0) + "kB";
         else return FlxMath.roundDecimal(b, 0) + "B";
     }
 }
