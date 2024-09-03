@@ -157,7 +157,7 @@ class GoogleDriveDownloader
 		}
 
 		//var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(1024);
-        var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(8192);
+        var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(65536);
 		var bytesWritten:Int = 1;
         downloadingRn = true;
         if(totalBytes > 0)
@@ -266,9 +266,9 @@ class GoogleDriveDownloader
 
     private static function loadedBytes(b:Float):String
     {
-        if(b > 1000000000) return FlxMath.roundDecimal(b / 1000000000, 2) + "GB";
-        else if (b > 1000000) return FlxMath.roundDecimal(b / 1000000, 2) + "MB";
-        else if (b > 1000) return FlxMath.roundDecimal(b / 1000, 0) + "kB";
-        else return FlxMath.roundDecimal(b, 0) + "kB";
+        if(b > 1000000000) return FlxMath.roundDecimal(b / 1024000000, 2) + "GB";
+        else if (b > 1000000) return FlxMath.roundDecimal(b / 1024000, 2) + "MB";
+        else if (b > 1000) return FlxMath.roundDecimal(b / 1024, 0) + "kB";
+        else return FlxMath.roundDecimal(b, 0) + "B";
     }
 }

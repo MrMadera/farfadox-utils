@@ -111,7 +111,7 @@ class ExampleState extends FlxState
         var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
             GoogleDriveDownloader.extension = 'zip';
-            new GoogleDriveDownloader("https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing", 'BORED');
+            new GoogleDriveDownloader("https://drive.google.com/file/d/1kZZIqsnlFW5Vqjqw2qpkJATGtXkLNHPM/view?usp=sharing", 'MrTroncoV3');
         });
         button3.antialiasing = true;
         button3.bgSelectedColor = 0xFF000000;
