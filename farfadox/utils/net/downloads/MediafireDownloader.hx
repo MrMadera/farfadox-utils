@@ -61,6 +61,8 @@ class MediafireDownloader
         http.request(false);
     }
 
+    public var totalBytes:Float = 0;
+
     //Get mediafire data
     public static function fetchMediafireData(url:String)
     {
@@ -70,7 +72,15 @@ class MediafireDownloader
             var doc:HtmlDocument = new HtmlDocument(d, true);
             var titles = doc.find("#downloadButton");
             var newURL = titles[0].getAttribute("href");
+            @:privateAccess
+            var fileSize = titles[0].get_innerHTML();
+
             trace('NEW URL: ' + newURL);
+            trace('File size: ' + fileSize);
+            totalBytes = convertMediafireFilesizeDataToBytes(fileSize);
+            trace('Total MBs: ' + totalBytes);
+            totalBytes *= 1000000;
+            trace('Total bytes: ' + totalBytes);
             Thread.create(function() 
             {
                 downloadFile(newURL);
@@ -83,5 +93,16 @@ class MediafireDownloader
     public static function unZip(bytes:haxe.io.Bytes)
     {
         // code ...
+        trace('Unzipping!');
+    }
+
+    private static function convertMediafireFilesizeDataToBytes(string:String):Float
+    {
+        var trimmedText = StringTools.trim(string);
+        var result = StringTools.replace(trimmedText, " ", "");
+        var sizeInMBs = result.substr(result.length - 7, result.length - 12);
+        var sizeinMBs_int = Std.parseFloat(sizeInMBs);
+        var returnBytes:Float = sizeinMBs_int;
+        return returnBytes;
     }
 }
