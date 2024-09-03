@@ -18,12 +18,13 @@ import sys.FileSystem;
 
 class GoogleDriveDownloader 
 {
-    public function new(url:String) 
+    public function new(url:String, _fileName:String) 
     {
         Thread.create(function() 
         {
             fetchGoogleDriveData(url);
         });
+        fileName = _fileName;
         trace("Fetching data...");
     }
 
@@ -40,12 +41,14 @@ class GoogleDriveDownloader
 
     public static var extension:String;
 
+    public static var fileName:String;
+
     public static function downloadFile(url:String)
     {
         socket = new Socket();
 
         var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-        outputFilePath += 'downloads/TheGrefg.' + extension;
+        outputFilePath += 'downloads/' + fileName + '.' + extension;
 
         isDownloading = true;
         
@@ -107,7 +110,7 @@ class GoogleDriveDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/TheGrefg.' + extension, ''); 
+        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.' + extension, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);

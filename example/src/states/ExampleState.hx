@@ -92,7 +92,7 @@ class ExampleState extends FlxState
 
         var button1:CustomButton = new CustomButton(600, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
-            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file");
+            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file", 'bin');
         });
         button1.antialiasing = true;
         button1.bgSelectedColor = 0xFF000000;
@@ -101,7 +101,7 @@ class ExampleState extends FlxState
 
         var button2:CustomButton = new CustomButton(600, 720, 200, 66, 0xFFFFFFFF, 'Video', 32, 0xFF000000, function()
         {
-            new MediafireDownloader("https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file");
+            new MediafireDownloader("https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file", 'haxe_gang');
         });
         button2.antialiasing = true;
         button2.bgSelectedColor = 0xFF000000;
@@ -111,7 +111,7 @@ class ExampleState extends FlxState
         var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
             GoogleDriveDownloader.extension = 'zip';
-            new GoogleDriveDownloader("https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing");
+            new GoogleDriveDownloader("https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing", 'BORED');
         });
         button3.antialiasing = true;
         button3.bgSelectedColor = 0xFF000000;

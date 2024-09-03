@@ -18,12 +18,13 @@ import sys.FileSystem;
 
 class MediafireDownloader 
 {
-    public function new(url:String) 
+    public function new(url:String, _fileName:String) 
     {
         Thread.create(function() 
         {
             fetchMediafireData(url);
         });
+        fileName = _fileName;
         trace("Fetching data...");
     }
 
@@ -40,13 +41,15 @@ class MediafireDownloader
 
     public static var extension:String;
 
+    public static var fileName:String;
+
     public static function downloadFile(url:String)
     {
         socket = new Socket();
 
         var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
         extension = url.substr(url.length - 3, url.length);
-        outputFilePath += 'downloads/TheGrefg.' + extension;
+        outputFilePath += 'downloads/' + fileName + '.' + extension;
 
         isDownloading = true;
         
@@ -108,7 +111,7 @@ class MediafireDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/TheGrefg.' + extension, ''); 
+        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.' + extension, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);
