@@ -28,21 +28,50 @@ class GoogleDriveDownloader
         trace("Fetching data...");
     }
 
+    /**
+     * While downloading, this variable will be `true`
+    **/
     public static var isDownloading:Bool = false;
-    public static var downloadingRn:Bool = false;
+    /**
+     * Socket variable. Main handler of downloads
+    **/
     public static var socket:Socket;
 
+    /**
+     * Domain of the URL
+    **/
     public static var domain:String;
+    /**
+     * Path of the URL
+     * The path is the part which come after the domain.
+     * e.g. https://download1326.mediafire.com`/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1...` is the path, the other part 
+    **/
     public static var path:String;
 
+    /**
+     * The current amount of bytes written during the download
+    **/
     public static var bytesDownloaded:Float;
     
+    /**
+     * The output file
+    **/
 	public static var file:FileOutput;
 
+    /**
+     * The extension of the file
+    **/
     public static var extension:String;
 
+    /**
+     * The name of the output file
+    **/
     public static var fileName:String;
 
+    /**
+     * Function which downloads files from an url
+     @param url the DIRECT url of the file
+    **/
     public static function downloadFile(url:String)
     {
         socket = new Socket();
@@ -159,7 +188,6 @@ class GoogleDriveDownloader
 		//var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(1024);
         var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(65536);
 		var bytesWritten:Int = 1;
-        downloadingRn = true;
         if(totalBytes > 0)
         {
             while(bytesDownloaded < totalBytes && isDownloading)
@@ -211,12 +239,19 @@ class GoogleDriveDownloader
 				}
 			}
         }
-        downloadingRn = false;
     }
 
+    /**
+     * The total amount of bytes of the file
+    **/
     public static var totalBytes:Float = 0;
 
     //Get google drive data
+
+    /**
+     * Function which gets the direct url from a normal url
+     @param url the normal url
+    **/
     public static function fetchGoogleDriveData(url:String)
     {
 		var id = url.substr("https://drive.google.com/file/d/".length).split("/")[0];
@@ -227,12 +262,18 @@ class GoogleDriveDownloader
         });
     }
 
+    /**
+     * Function which uncompress .zip files
+    **/
     public static function unZip()
     {
         // code ...
         trace('Unzipping!');
     }
 
+    /**
+     * Set `domain` and `path` from the direct url
+    **/
     public static function setDomains(url:String)
     {
         // example: https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing
@@ -258,7 +299,6 @@ class GoogleDriveDownloader
             file.close();
         extension = null;
         isDownloading = false;
-        downloadingRn = false;
         domain = '';
         path = '';
         bytesDownloaded = 0;
