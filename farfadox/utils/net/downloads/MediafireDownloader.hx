@@ -61,7 +61,7 @@ class MediafireDownloader
         http.request(false);
     }
 
-    public var totalBytes:Float = 0;
+    public static var totalBytes:Float = 0;
 
     //Get mediafire data
     public static function fetchMediafireData(url:String)
