@@ -1,5 +1,6 @@
 package farfadox.utils.net.downloads;
 
+import flixel.math.FlxMath;
 import haxe.io.Eof;
 import haxe.io.Error;
 import haxe.Http;
@@ -153,7 +154,8 @@ class MediafireDownloader
             trace('TOTAL BYTES: ' + totalBytes);
 		}
 
-		var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(1024);
+		//var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(1024);
+        var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(4096);
 		var bytesWritten:Int = 1;
         downloadingRn = true;
         if(totalBytes > 0)
@@ -165,7 +167,7 @@ class MediafireDownloader
                     bytesWritten = socket.input.readBytes(buffer, 0, buffer.length);
                     file.writeBytes(buffer, 0, bytesWritten);
                     bytesDownloaded += bytesWritten;
-                    trace('Downloading! Content: ' + bytesDownloaded);
+                    trace('Downloading! ' + loadedBytes(bytesDownloaded));
                 }
                 catch (e:Dynamic) 
                 {
@@ -281,5 +283,13 @@ class MediafireDownloader
         domain = '';
         path = '';
         bytesDownloaded = 0;
+    }
+
+    private static function loadedBytes(b:Float):String
+    {
+        if(b > 1000000000) return FlxMath.roundDecimal(b / 1000000000, 2) + "GB";
+        else if (b > 1000000) return FlxMath.roundDecimal(b / 1000000, 2) + "MB";
+        else if (b > 1000) return FlxMath.roundDecimal(b / 1000, 0) + "kB";
+        else return FlxMath.roundDecimal(b, 0) + "kB";
     }
 }
