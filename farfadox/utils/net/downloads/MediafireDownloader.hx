@@ -37,6 +37,15 @@ class MediafireDownloader
         trace('PATH: ' + outputFilePath + ', EXTENSION: ' + extension);
 
         http.onData = function(data:String) {
+
+            #if debug
+            var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
+            outputFilePath += 'htmldata.txt';
+
+            File.saveContent(outputFilePath, data);
+
+            #end
+
             var bytes = haxe.io.Bytes.ofString(data);
             trace("Received chunk of size: " + bytes.length);
         }
