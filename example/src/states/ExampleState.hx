@@ -1,6 +1,7 @@
 package states;
 
 import farfadox.utils.net.downloads.MediafireDownloader;
+import farfadox.utils.net.downloads.GoogleDriveDownloader;
 import farfadox.utils.ui.gamepad.GamepadInstructions;
 import farfadox.utils.net.ConnectionChecker;
 import farfadox.utils.ui.CustomButton;
@@ -106,5 +107,15 @@ class ExampleState extends FlxState
         button2.bgSelectedColor = 0xFF000000;
         button2.txtSelectedColor = 0xFFFFFFFF;
         add(button2);
+
+        var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
+        {
+            GoogleDriveDownloader.extension = 'zip';
+            new GoogleDriveDownloader("https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing");
+        });
+        button3.antialiasing = true;
+        button3.bgSelectedColor = 0xFF000000;
+        button3.txtSelectedColor = 0xFFFFFFFF;
+        add(button3);
     }
 }

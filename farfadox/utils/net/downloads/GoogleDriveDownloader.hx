@@ -16,13 +16,13 @@ import sys.FileSystem;
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
 
-class MediafireDownloader 
+class GoogleDriveDownloader 
 {
     public function new(url:String) 
     {
         Thread.create(function() 
         {
-            fetchMediafireData(url);
+            fetchGoogleDriveData(url);
         });
         trace("Fetching data...");
     }
@@ -45,7 +45,6 @@ class MediafireDownloader
         socket = new Socket();
 
         var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-        extension = url.substr(url.length - 3, url.length);
         outputFilePath += 'downloads/TheGrefg.' + extension;
 
         isDownloading = true;
@@ -155,7 +154,7 @@ class MediafireDownloader
 		}
 
 		//var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(1024);
-        var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(4096);
+        var buffer:haxe.io.Bytes = haxe.io.Bytes.alloc(8192);
 		var bytesWritten:Int = 1;
         downloadingRn = true;
         if(totalBytes > 0)
@@ -214,34 +213,15 @@ class MediafireDownloader
 
     public static var totalBytes:Float = 0;
 
-    //Get mediafire data
-    public static function fetchMediafireData(url:String)
+    //Get google drive data
+    public static function fetchGoogleDriveData(url:String)
     {
-        var http:Http = new Http(url);
-        http.onData = function(d)
+		var id = url.substr("https://drive.google.com/file/d/".length).split("/")[0];
+		var newURL = 'https://drive.usercontent.google.com/download?id=$id&export=download&confirm=t';
+        Thread.create(function() 
         {
-            var doc:HtmlDocument = new HtmlDocument(d, true);
-            var titles = doc.find("#downloadButton");
-            var newURL = titles[0].getAttribute("href");
-            @:privateAccess
-            var fileSize = titles[0].get_innerHTML();
-
-            #if debug
-                var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-                outputFilePath += 'html_data.txt';
-
-                File.saveContent(outputFilePath, d);
-            #end
-
-            trace('NEW URL: ' + newURL);
-            trace('File size: ' + fileSize);
-            Thread.create(function() 
-            {
-                downloadFile(newURL);
-            });
-            trace("Starting download...");
-        }
-        http.request();
+            downloadFile(newURL);
+        });
     }
 
     public static function unZip()
@@ -252,18 +232,14 @@ class MediafireDownloader
 
     public static function setDomains(url:String)
     {
-        // example: https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
+        // example: https://drive.google.com/file/d/1sFS2MCOhDW8WEcyhZnx2VM1iJK6a9ByL/view?usp=sharing
 
         // domain
-
-        // not gonna be calculating stuff depending on url when this'll be only for mediafire files...
-        //domain = 'mediafire.com';
-
-        var fdom:String = url.substr(8, 26);
-        domain = fdom; //downloadXXXX.mediafire.com
+        var fdom:String = url.substr(8, 28);
+        domain = fdom; //drive.usercontent.google.com
 
         // path
-        var fpath = url.substr(34, url.length);
+        var fpath = url.substr(36, url.length);
         trace('path???',fpath);
         path = fpath;
     }
