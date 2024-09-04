@@ -89,7 +89,7 @@ class DownloadingSubState extends FlxSubState
                 downloadStatus.screenCenter(X);
 
                 downloadBytesStatus.visible = GoogleDriveDownloader.downloadStatus == 'Downloading...';
-                downloadBytesStatus.visible = downloadBytesStatus.visible;
+                processBar.visible = downloadBytesStatus.visible;
                 downloadBytesStatus.text = GoogleDriveDownloader.loadedBytes(GoogleDriveDownloader.bytesDownloaded) + '/' + GoogleDriveDownloader.loadedBytes(GoogleDriveDownloader.totalBytes);
                 downloadBytesStatus.screenCenter(X);
 

@@ -104,7 +104,7 @@ class ExampleState extends FlxState
         var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
             GoogleDriveDownloader.extension = 'zip';
-            new GoogleDriveDownloader("https://drive.google.com/file/d/1kZZIqsnlFW5Vqjqw2qpkJATGtXkLNHPM/view?usp=sharing", 'MrTroncoV3'); // REMOVED LINK!
+            new GoogleDriveDownloader("https://drive.google.com/file/d/15vqdQajXTkEIMXmZOSTHTJr9_Dtw-StI/view", 'flp_madera');
             openSubState(new DownloadingSubState(true));
         });
         button3.antialiasing = true;

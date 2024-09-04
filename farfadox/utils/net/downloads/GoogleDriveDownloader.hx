@@ -12,6 +12,8 @@ import htmlparser.HtmlDocument;
 import haxe.zip.Uncompress;
 import sys.io.FileOutput;
 import sys.FileSystem;
+import haxe.zip.Reader;
+import haxe.zip.Entry;
 
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
@@ -218,7 +220,7 @@ class GoogleDriveDownloader
                     file.writeBytes(buffer, 0, bytesWritten);
                     bytesDownloaded += bytesWritten;
                     //trace('Downloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
-                    Sys.print('\rDownloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
+                    Sys.print('\rDownloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes) + '\n');
                 }
                 catch (e:Dynamic) 
                 {
@@ -239,7 +241,8 @@ class GoogleDriveDownloader
                 downloadStatus = 'Cancelling...';
                 trace('Cancelling...');
                 trace('Closing network...');
-                socket.close();
+                if(socket != null) socket.close();
+                socket = null;
                 resetInfo();
             }
             else
@@ -248,7 +251,11 @@ class GoogleDriveDownloader
 
                 trace('Download complete!');
                 trace('Closing network...');
-                socket.close();
+                if(socket != null) socket.close();
+                socket = null;
+
+                if(file != null) file.close();
+                file = null;
 
                 checkFormat();
                 resetInfo();
@@ -293,6 +300,7 @@ class GoogleDriveDownloader
     {
 		var id = url.substr("https://drive.google.com/file/d/".length).split("/")[0];
 		var newURL = 'https://drive.usercontent.google.com/download?id=$id&export=download&confirm=t';
+        trace('NEW URL: ' + newURL);
         Thread.create(function() 
         {
             downloadFile(newURL);
@@ -302,11 +310,83 @@ class GoogleDriveDownloader
     /**
      * Function which uncompress .zip files
     **/
-    public static function unZip()
+    public static function unZip(path:String)
     {
-        // code ...
-        trace('Unzipping!');
-        downloadStatus = 'Unzipping...';
+        trace('Starting unzip process!');
+
+        var savePath = StringTools.replace(path, '.zip', '/');
+        if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
+        {
+            FileSystem.createDirectory(savePath);
+        }
+
+        var file = File.read(path);
+        trace('File read!');
+
+        downloadStatus = 'Reading file... (may take a few minutes)';
+
+        var filesInZip = Reader.readZip(file);
+        file.close();
+
+        var bytes:haxe.io.Bytes = null;
+        try
+        {
+            var zipBytesWritten:Float = 1;
+            downloadStatus = 'Unzipping...';
+            for (entry in filesInZip) 
+            {
+                //Sys.print('\rProcessing entry: ${entry.fileName}');
+                //Sys.println('');
+                if (StringTools.endsWith(entry.fileName, '/')) {
+                    try {
+                        FileSystem.createDirectory(savePath + entry.fileName);
+                    } catch(exc:Dynamic) {
+                        trace('Error creating directory ${entry.fileName} - ${exc.message}');
+                    }
+                } else {
+                    try {
+                        zipBytesWritten += entry.fileSize;
+                        Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}\n');
+                        bytes = Reader.unzip(entry);
+                        var f = File.write(savePath + entry.fileName, true);
+                        f.write(bytes);
+                        f.close();
+                    } catch(exc:Dynamic) {
+                        trace('Error processing entry ${entry.fileName} - ${exc.message}');
+                    }
+                }
+            }
+        }
+        catch(exc)
+        {
+            trace('Zip error! - $exc');
+            trace('Stack trace: ${haxe.CallStack.toString(haxe.CallStack.exceptionStack())}');
+            trace('Stopped!');
+            downloadStatus = 'Zip error! - $exc';
+            return;
+        }
+
+        trace('Finished unzipped!');
+        /*
+        downloadStatus = 'Saving...';
+        var savePath = StringTools.replace(path, '.zip', '/');
+        if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
+        {
+            FileSystem.createDirectory(savePath);
+        }
+        
+        try
+        {
+            File.saveBytes(savePath, bytes);
+        }
+        catch(exc)
+        {
+            trace('Error while saving - $exc');
+            downloadStatus = 'Error while saving! - $exc';
+        }
+        */
+        downloadStatus = 'Done...';
+        trace('Saved!');
     }
 
     /**
@@ -330,7 +410,14 @@ class GoogleDriveDownloader
     {
         if(extension == 'zip')
         {
-            unZip();
+            var oldoutputFilePath:String = Sys.programPath();
+    
+            var index = oldoutputFilePath.lastIndexOf("\\");
+    
+            var outputFilePath = oldoutputFilePath.substr(0, index);
+            trace('Path before: ' + outputFilePath);
+            outputFilePath += '/downloads/' + fileName + '.' + extension;
+            unZip(outputFilePath);
         }
         else downloadStatus = 'Download complete!';
     }
