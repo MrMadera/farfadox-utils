@@ -1,9 +1,14 @@
 package states;
 
+import substates.DownloadingSubState;
+import farfadox.utils.net.downloads.MediafireDownloader;
+import farfadox.utils.net.downloads.GoogleDriveDownloader;
 import farfadox.utils.ui.gamepad.GamepadInstructions;
 import farfadox.utils.net.ConnectionChecker;
+import farfadox.utils.ui.CustomButton;
 
 import flixel.FlxState;
+import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 
 class ExampleState extends FlxState
@@ -85,5 +90,26 @@ class ExampleState extends FlxState
             connectionAvaible.screenCenter(X);
             add(connectionAvaible);
         }
+
+        var button2:CustomButton = new CustomButton(600, 720, 200, 66, 0xFFFFFFFF, 'Video', 32, 0xFF000000, function()
+        {
+            new MediafireDownloader("https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file", 'haxe_gang');
+            openSubState(new DownloadingSubState(false));
+        });
+        button2.antialiasing = true;
+        button2.bgSelectedColor = 0xFF000000;
+        button2.txtSelectedColor = 0xFFFFFFFF;
+        add(button2);
+
+        var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
+        {
+            GoogleDriveDownloader.extension = 'zip';
+            new GoogleDriveDownloader("https://drive.google.com/file/d/15vqdQajXTkEIMXmZOSTHTJr9_Dtw-StI/view", 'flp_madera');
+            openSubState(new DownloadingSubState(true));
+        });
+        button3.antialiasing = true;
+        button3.bgSelectedColor = 0xFF000000;
+        button3.txtSelectedColor = 0xFFFFFFFF;
+        add(button3);
     }
 }
