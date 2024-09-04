@@ -379,24 +379,6 @@ class GoogleDriveDownloader
         }
 
         trace('Finished unzipped!');
-        /*
-        downloadStatus = 'Saving...';
-        var savePath = StringTools.replace(path, '.zip', '/');
-        if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
-        {
-            FileSystem.createDirectory(savePath);
-        }
-        
-        try
-        {
-            File.saveBytes(savePath, bytes);
-        }
-        catch(exc)
-        {
-            trace('Error while saving - $exc');
-            downloadStatus = 'Error while saving! - $exc';
-        }
-        */
         downloadStatus = 'Done...';
         trace('Saved!');
     }

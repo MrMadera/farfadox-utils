@@ -12,7 +12,8 @@ import htmlparser.HtmlDocument;
 import haxe.zip.Uncompress;
 import sys.io.FileOutput;
 import sys.FileSystem;
-import lime.app.Application;
+import haxe.zip.Reader;
+import haxe.zip.Entry;
 
 // Direct link:
 //https://download1326.mediafire.com/bxesialfjqvgNZFE0xL0GqPEisM1mE5dhDS1-zzNhDem5gRYS_H9SAAX31svImmMS161gRg8tZTDOfUiJFrte7q-S-giRrOMrPDOmpLco7VLv0xkmqcKmRO19P_rKHuRWCtpz-on0nBbXkduIvc5t97pp55rqQGFEwNm-mT8J08/teq6fgks0mzhnm4/bin.zip
@@ -167,8 +168,20 @@ class MediafireDownloader
         try
         {
             downloadStatus = 'Creating file...';
-            file = File.append(outputFilePath, true);
-            trace('File created');
+            if(!FileSystem.exists(outputFilePath))
+            {
+                trace('path $outputFilePath does not exist!');
+                file = File.append(outputFilePath, true);
+                trace('File created');
+            }
+            else
+            {
+                trace('path $outputFilePath exists!');
+                FileSystem.deleteFile(outputFilePath);
+                trace('Old file deleted!');
+                file = File.append(outputFilePath, true);
+                trace('File created');
+            }
         }
         catch(exc)
         {
@@ -319,11 +332,65 @@ class MediafireDownloader
         http.request();
     }
 
-    public static function unZip()
+    public static function unZip(path:String)
     {
-        // code ...
-        trace('Unzipping!');
-        downloadStatus = 'Unzipping...';
+        trace('Starting unzip process!');
+
+        var savePath = StringTools.replace(path, '.zip', '/');
+        if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
+        {
+            FileSystem.createDirectory(savePath);
+        }
+
+        var file = File.read(path);
+        trace('File read!');
+
+        downloadStatus = 'Reading file... (may take a few minutes)';
+
+        var filesInZip = Reader.readZip(file);
+        file.close();
+
+        var bytes:haxe.io.Bytes = null;
+        try
+        {
+            var zipBytesWritten:Float = 1;
+            downloadStatus = 'Unzipping...';
+            for (entry in filesInZip) 
+            {
+                //Sys.print('\rProcessing entry: ${entry.fileName}');
+                //Sys.println('');
+                if (StringTools.endsWith(entry.fileName, '/')) {
+                    try {
+                        FileSystem.createDirectory(savePath + entry.fileName);
+                    } catch(exc:Dynamic) {
+                        trace('Error creating directory ${entry.fileName} - ${exc.message}');
+                    }
+                } else {
+                    try {
+                        zipBytesWritten += entry.fileSize;
+                        Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}');
+                        bytes = Reader.unzip(entry);
+                        var f = File.write(savePath + entry.fileName, true);
+                        f.write(bytes);
+                        f.close();
+                    } catch(exc:Dynamic) {
+                        trace('Error processing entry ${entry.fileName} - ${exc.message}');
+                    }
+                }
+            }
+        }
+        catch(exc)
+        {
+            trace('Zip error! - $exc');
+            trace('Stack trace: ${haxe.CallStack.toString(haxe.CallStack.exceptionStack())}');
+            trace('Stopped!');
+            downloadStatus = 'Zip error! - $exc';
+            return;
+        }
+
+        trace('Finished unzipped!');
+        downloadStatus = 'Done...';
+        trace('Saved!');
     }
 
     /**
@@ -349,7 +416,17 @@ class MediafireDownloader
 
     private static function checkFormat()
     {
-        if(extension == 'zip') unZip();
+        if(extension == 'zip') 
+        {
+            var oldoutputFilePath:String = Sys.programPath();
+    
+            var index = oldoutputFilePath.lastIndexOf("\\");
+    
+            var outputFilePath = oldoutputFilePath.substr(0, index);
+            trace('Path before: ' + outputFilePath);
+            outputFilePath += '/downloads/' + fileName + '.' + extension;
+            unZip(outputFilePath);
+        }
         else downloadStatus = 'Download complete!';
     }
 
