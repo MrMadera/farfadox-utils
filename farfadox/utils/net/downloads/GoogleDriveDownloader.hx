@@ -348,11 +348,22 @@ class GoogleDriveDownloader
     }
 
     /**
+     * During unzipping, this variable will be `true`
+    **/
+    public static var unzipping:Bool = false;
+    /**
+     * If `true`, it will start the unzip process when the download finish
+    **/
+    public static var autoUnzip:Bool = false;
+
+    /**
      * Function which uncompress .zip files
     **/
     public static function unZip(path:String)
     {
         trace('Starting unzip process!');
+
+        unzipping = true;
 
         var savePath = StringTools.replace(path, '.zip', '/');
         if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
@@ -409,6 +420,7 @@ class GoogleDriveDownloader
         trace('Finished unzipped!');
         downloadStatus = 'Done!';
         trace('Saved!');
+        unzipping = false;
     }
 
     /**
@@ -430,7 +442,7 @@ class GoogleDriveDownloader
 
     private static function checkFormat()
     {
-        if(extension == 'zip')
+        if(extension == 'zip' && autoUnzip)
         {
             var oldoutputFilePath:String = Sys.programPath();
     
