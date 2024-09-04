@@ -407,7 +407,7 @@ class GoogleDriveDownloader
         }
 
         trace('Finished unzipped!');
-        downloadStatus = 'Done...';
+        downloadStatus = 'Done!';
         trace('Saved!');
     }
 

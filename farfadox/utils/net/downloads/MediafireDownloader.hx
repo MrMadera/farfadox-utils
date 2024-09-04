@@ -423,7 +423,7 @@ class MediafireDownloader
         }
 
         trace('Finished unzipped!');
-        downloadStatus = 'Done...';
+        downloadStatus = 'Done!';
         trace('Saved!');
     }
 
