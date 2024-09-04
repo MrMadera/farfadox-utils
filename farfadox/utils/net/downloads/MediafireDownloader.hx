@@ -442,6 +442,8 @@ class MediafireDownloader
         var fdom:String = url.substr(8, 26);
         domain = fdom; //downloadXXXX.mediafire.com
 
+        if(StringTools.endsWith(domain, '/')) domain = domain.substr(0, domain.length - 1);
+
         // path
         var fpath = url.substr(34, url.length);
         trace('path???',fpath);
