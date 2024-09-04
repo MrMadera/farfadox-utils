@@ -219,7 +219,7 @@ class MediafireDownloader
                     bytesWritten = socket.input.readBytes(buffer, 0, buffer.length);
                     file.writeBytes(buffer, 0, bytesWritten);
                     bytesDownloaded += bytesWritten;
-                    trace('Downloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
+                    Sys.print('\rDownloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
                 }
                 catch (e:Dynamic) 
                 {

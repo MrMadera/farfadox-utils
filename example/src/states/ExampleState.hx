@@ -91,16 +91,6 @@ class ExampleState extends FlxState
             add(connectionAvaible);
         }
 
-        var button1:CustomButton = new CustomButton(600, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
-        {
-            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file", 'bin'); // REMOVED LINK!
-            openSubState(new DownloadingSubState(false));
-        });
-        button1.antialiasing = true;
-        button1.bgSelectedColor = 0xFF000000;
-        button1.txtSelectedColor = 0xFFFFFFFF;
-        add(button1);
-
         var button2:CustomButton = new CustomButton(600, 720, 200, 66, 0xFFFFFFFF, 'Video', 32, 0xFF000000, function()
         {
             new MediafireDownloader("https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file", 'haxe_gang');
