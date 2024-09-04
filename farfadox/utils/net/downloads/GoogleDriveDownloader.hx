@@ -167,8 +167,20 @@ class GoogleDriveDownloader
         try
         {
             downloadStatus = 'Creating file...';
-            file = File.append(outputFilePath, true);
-            trace('File created');
+            if(!FileSystem.exists(outputFilePath))
+            {
+                trace('path $outputFilePath does not exist!');
+                file = File.append(outputFilePath, true);
+                trace('File created');
+            }
+            else
+            {
+                trace('path $outputFilePath exists!');
+                FileSystem.deleteFile(outputFilePath);
+                trace('Old file deleted!');
+                file = File.append(outputFilePath, true);
+                trace('File created');
+            }
         }
         catch(exc)
         {
