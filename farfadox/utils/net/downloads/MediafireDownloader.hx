@@ -181,7 +181,7 @@ class MediafireDownloader
 
         // Now let's get the headers
         var headers:Map<String, String> = new Map<String, String>();
-        while(isDownloading)
+        while(isDownloading && !canceledDownload)
         {
             downloadStatus = 'Getting headers...';
 			var read:String = socket.input.readLine();
@@ -211,7 +211,7 @@ class MediafireDownloader
 		var bytesWritten:Int = 1;
         if(totalBytes > 0)
         {
-            while(bytesDownloaded < totalBytes && isDownloading)
+            while(bytesDownloaded < totalBytes && isDownloading && !canceledDownload)
             {
                 try
                 {
@@ -232,12 +232,28 @@ class MediafireDownloader
                 }
             }
 
-            trace('Download complete!');
-            trace('Closing network...');
-            socket.close();
+            canCancelDownloads = false;
+            if(canceledDownload)
+            {
+                // If download is canceled
 
-            checkFormat();
-            resetInfo();
+                downloadStatus = 'Cancelling...';
+                trace('Cancelling...');
+                trace('Closing network...');
+                socket.close();
+                resetInfo();
+            }
+            else
+            {
+                // If download is completed
+
+                trace('Download complete!');
+                trace('Closing network...');
+                socket.close();
+
+                checkFormat();
+                resetInfo();
+            }
         }
         else
         {
@@ -346,6 +362,8 @@ class MediafireDownloader
         domain = '';
         path = '';
         bytesDownloaded = 0;
+        canceledDownload = false;
+        canCancelDownloads = true;
     }
 
     public static function loadedBytes(b:Float):String
@@ -355,4 +373,14 @@ class MediafireDownloader
         else if (b > 1000) return FlxMath.roundDecimal(b / 1024, 0) + "kB";
         else return FlxMath.roundDecimal(b, 0) + "B";
     }
+
+    /**
+     * If download is canceled, this will turn `true`
+    **/
+    public static var canceledDownload:Bool = false;
+
+    /**
+     * If download is finished, you cannot delete the file and cancel the download
+    **/
+    public static var canCancelDownloads:Bool = true;
 }

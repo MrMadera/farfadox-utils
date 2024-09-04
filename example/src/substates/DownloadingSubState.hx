@@ -1,7 +1,9 @@
 package substates;
 
 import farfadox.utils.net.downloads.GoogleDriveDownloader;
+import farfadox.utils.net.downloads.MediafireDownloader;
 
+import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
 import flixel.text.FlxText;
@@ -53,6 +55,29 @@ class DownloadingSubState extends FlxSubState
         super.update(elapsed);
 
         updateTexts(isGDrive ? DownloadType.GDRIVE : DownloadType.MEDIAFIRE);
+
+        if(FlxG.keys.justPressed.ESCAPE)
+        {
+            if(isGDrive ? GoogleDriveDownloader.canCancelDownloads : MediafireDownloader.canCancelDownloads)
+            {
+                if(isGDrive)
+                {
+                    GoogleDriveDownloader.canceledDownload = true;
+                }
+                else
+                {
+                    MediafireDownloader.canceledDownload = true;
+                }
+                new FlxTimer().start(0.8, function(tmr:FlxTimer)
+                {
+                    close();
+                });
+            }
+            else
+            {
+                close();
+            }
+        }
     }
 
     public function updateTexts(type:DownloadType)
@@ -71,6 +96,14 @@ class DownloadingSubState extends FlxSubState
                 
             case MEDIAFIRE:
                 // nothing
+                downloadStatus.text = MediafireDownloader.downloadStatus;
+                downloadStatus.screenCenter(X);
+
+                downloadBytesStatus.visible = MediafireDownloader.downloadStatus == 'Downloading...';
+                downloadBytesStatus.text = MediafireDownloader.loadedBytes(MediafireDownloader.bytesDownloaded) + '/' + MediafireDownloader.loadedBytes(MediafireDownloader.totalBytes);
+                downloadBytesStatus.screenCenter(X);
+
+                percent = MediafireDownloader.bytesDownloaded / MediafireDownloader.totalBytes;
         }
     }
 }
