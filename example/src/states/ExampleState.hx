@@ -1,5 +1,6 @@
 package states;
 
+import substates.DownloadingSubState;
 import farfadox.utils.net.downloads.MediafireDownloader;
 import farfadox.utils.net.downloads.GoogleDriveDownloader;
 import farfadox.utils.ui.gamepad.GamepadInstructions;
@@ -92,7 +93,7 @@ class ExampleState extends FlxState
 
         var button1:CustomButton = new CustomButton(600, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
-            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file", 'bin');
+            new MediafireDownloader("https://www.mediafire.com/file/teq6fgks0mzhnm4/bin.zip/file", 'bin'); // REMOVED LINK!
         });
         button1.antialiasing = true;
         button1.bgSelectedColor = 0xFF000000;
@@ -111,7 +112,8 @@ class ExampleState extends FlxState
         var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
             GoogleDriveDownloader.extension = 'zip';
-            new GoogleDriveDownloader("https://drive.google.com/file/d/1kZZIqsnlFW5Vqjqw2qpkJATGtXkLNHPM/view?usp=sharing", 'MrTroncoV3');
+            new GoogleDriveDownloader("https://drive.google.com/file/d/1kZZIqsnlFW5Vqjqw2qpkJATGtXkLNHPM/view?usp=sharing", 'MrTroncoV3'); // REMOVED LINK!
+            openSubState(new DownloadingSubState(true));
         });
         button3.antialiasing = true;
         button3.bgSelectedColor = 0xFF000000;

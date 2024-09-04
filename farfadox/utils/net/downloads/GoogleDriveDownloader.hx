@@ -69,6 +69,11 @@ class GoogleDriveDownloader
     public static var fileName:String;
 
     /**
+     * String telling you about the current status of the download
+    **/
+    public static var downloadStatus:String;
+
+    /**
      * Function which downloads files from an url
      @param url the DIRECT url of the file
     **/
@@ -108,6 +113,7 @@ class GoogleDriveDownloader
                 // Lil guide cuz im so idiot to undestand this without my comments :(
     
                 // Connect to the server
+                downloadStatus = 'Connecting...';
                 socket.connect(new Host(domain), 443);
                 trace('Successfully connected to Network!');
                 
@@ -123,6 +129,7 @@ class GoogleDriveDownloader
                 if (httpStatus == null || StringTools.startsWith(httpStatus, "4") || StringTools.startsWith(httpStatus, "5")) 
                 {
                     trace('Network error! - $httpStatus');
+                    downloadStatus = 'Network error!';
                 }
                 trace('GET method successfully done!');
 
@@ -130,7 +137,11 @@ class GoogleDriveDownloader
             }
             catch(e)
             {
-                if(tries <= 4) trace('Network Error! ' + e + ', Retrying... ' + tries);
+                if(tries <= 4)
+                {
+                    downloadStatus = 'Retrying...';
+                    trace('Network Error! ' + e + ', Retrying... ' + tries);
+                }
                 else
                 {
                     trace('Many tries! Network has been closed...');
@@ -153,11 +164,13 @@ class GoogleDriveDownloader
         // Instance the file
         try
         {
+            downloadStatus = 'Creating file...';
             file = File.append(outputFilePath, true);
             trace('File created');
         }
         catch(exc)
         {
+            downloadStatus = 'Error creating file...';
             file = null;
             trace('Error creating file!');
             // TODO: add OnCancel function or similar
@@ -168,6 +181,7 @@ class GoogleDriveDownloader
         var headers:Map<String, String> = new Map<String, String>();
         while(isDownloading)
         {
+            downloadStatus = 'Getting headers...';
 			var read:String = socket.input.readLine();
 			if (StringTools.trim(read) == "") 
             {
@@ -199,6 +213,7 @@ class GoogleDriveDownloader
             {
                 try
                 {
+                    downloadStatus = 'Downloading...';
                     bytesWritten = socket.input.readBytes(buffer, 0, buffer.length);
                     file.writeBytes(buffer, 0, bytesWritten);
                     bytesDownloaded += bytesWritten;
@@ -274,6 +289,7 @@ class GoogleDriveDownloader
     {
         // code ...
         trace('Unzipping!');
+        downloadStatus = 'Unzipping...';
     }
 
     /**
@@ -295,7 +311,11 @@ class GoogleDriveDownloader
 
     private static function checkFormat()
     {
-        if(extension == 'zip') unZip();
+        if(extension == 'zip')
+        {
+            unZip();
+        }
+        else downloadStatus = 'Download complete!';
     }
 
     private static function resetInfo()
@@ -309,7 +329,7 @@ class GoogleDriveDownloader
         bytesDownloaded = 0;
     }
 
-    private static function loadedBytes(b:Float):String
+    public static function loadedBytes(b:Float):String
     {
         if(b > 1024000000) return FlxMath.roundDecimal(b / 1024000000, 2) + "GB";
         else if (b > 1024000) return FlxMath.roundDecimal(b / 1024000, 2) + "MB";
