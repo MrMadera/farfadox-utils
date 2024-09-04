@@ -81,6 +81,9 @@ class GoogleDriveDownloader
     **/
     public static function downloadFile(url:String)
     {
+        canCancelDownloads = true;
+        canceledDownload = false;
+
         socket = new Socket();
 
         var oldoutputFilePath:String = Sys.programPath();
@@ -89,7 +92,7 @@ class GoogleDriveDownloader
 
         var outputFilePath = oldoutputFilePath.substr(0, index);
         trace('Path before: ' + outputFilePath);
-        outputFilePath += '/downloads/' + fileName + '.' + extension;
+        outputFilePath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
 
         isDownloading = true;
         
@@ -157,7 +160,7 @@ class GoogleDriveDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.' + extension, ''); 
+        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.download'/* + extension*/, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);
@@ -255,6 +258,16 @@ class GoogleDriveDownloader
                 trace('Closing network...');
                 if(socket != null) socket.close();
                 socket = null;
+
+                if(file != null) file.close();
+                file = null;
+
+                try 
+                {
+                    FileSystem.deleteFile(outputFilePath);
+                    trace('It\'s cancelled so we gotta delete the file :(');
+                }
+
                 resetInfo();
             }
             else
@@ -268,6 +281,21 @@ class GoogleDriveDownloader
 
                 if(file != null) file.close();
                 file = null;
+
+                try
+                {
+                    var trueFile = StringTools.replace(outputFilePath, '.download', '.' + extension);
+                    if(!FileSystem.exists(trueFile))
+                    {
+                        FileSystem.rename(outputFilePath, trueFile);
+                    }
+                    else
+                    {
+                        FileSystem.deleteFile(trueFile);
+                        trace('Deleting old .$extension');
+                        FileSystem.rename(outputFilePath, trueFile);
+                    }
+                }
 
                 checkFormat();
                 resetInfo();
@@ -426,7 +454,7 @@ class GoogleDriveDownloader
         path = '';
         bytesDownloaded = 0;
         canceledDownload = false;
-        canCancelDownloads = true;
+        //canCancelDownloads = true;
     }
 
     public static function loadedBytes(b:Float):String

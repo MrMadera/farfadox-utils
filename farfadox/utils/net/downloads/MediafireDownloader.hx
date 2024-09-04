@@ -81,6 +81,9 @@ class MediafireDownloader
     **/
     public static function downloadFile(url:String)
     {
+        canCancelDownloads = true;
+        canceledDownload = false;
+
         socket = new Socket();
 
         var oldoutputFilePath:String = Sys.programPath();
@@ -90,7 +93,7 @@ class MediafireDownloader
         var outputFilePath = oldoutputFilePath.substr(0, index);
         trace('Path before: ' + outputFilePath);
         extension = url.substr(url.length - 3, url.length);
-        outputFilePath += '/downloads/' + fileName + '.' + extension;
+        outputFilePath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
 
         isDownloading = true;
         
@@ -158,7 +161,7 @@ class MediafireDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.' + extension, ''); 
+        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.download'/* + extension*/, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);
@@ -253,7 +256,19 @@ class MediafireDownloader
                 downloadStatus = 'Cancelling...';
                 trace('Cancelling...');
                 trace('Closing network...');
-                socket.close();
+                if(socket != null) socket.close();
+                socket = null;
+
+                if(file != null) file.close();
+                file = null;
+                
+                try 
+                {
+                    trace('Mediafire file path: $outputFilePath');
+                    FileSystem.deleteFile(outputFilePath);
+                    trace('It\'s cancelled so we gotta delete the file :(');
+                }
+
                 resetInfo();
             }
             else
@@ -262,7 +277,26 @@ class MediafireDownloader
 
                 trace('Download complete!');
                 trace('Closing network...');
-                socket.close();
+                if(socket != null) socket.close();
+                socket = null;
+
+                if(file != null) file.close();
+                file = null;
+
+                try
+                {
+                    var trueFile = StringTools.replace(outputFilePath, '.download', '.' + extension);
+                    if(!FileSystem.exists(trueFile))
+                    {
+                        FileSystem.rename(outputFilePath, trueFile);
+                    }
+                    else
+                    {
+                        FileSystem.deleteFile(trueFile);
+                        trace('Deleting old .$extension');
+                        FileSystem.rename(outputFilePath, trueFile);
+                    }
+                }
 
                 checkFormat();
                 resetInfo();
@@ -440,7 +474,7 @@ class MediafireDownloader
         path = '';
         bytesDownloaded = 0;
         canceledDownload = false;
-        canCancelDownloads = true;
+        //canCancelDownloads = true;
     }
 
     public static function loadedBytes(b:Float):String

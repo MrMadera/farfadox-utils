@@ -58,20 +58,28 @@ class DownloadingSubState extends FlxSubState
 
         if(FlxG.keys.justPressed.ESCAPE)
         {
-            if(isGDrive ? GoogleDriveDownloader.canCancelDownloads : MediafireDownloader.canCancelDownloads)
+            if(GoogleDriveDownloader.canCancelDownloads)
             {
-                if(isGDrive)
-                {
-                    GoogleDriveDownloader.canceledDownload = true;
-                }
-                else
-                {
-                    MediafireDownloader.canceledDownload = true;
-                }
+                GoogleDriveDownloader.canceledDownload = true;
                 new FlxTimer().start(0.8, function(tmr:FlxTimer)
                 {
                     close();
                 });
+                trace('Cancel this pls!');
+            }
+            else
+            {
+                close();
+            }
+
+            if(MediafireDownloader.canCancelDownloads)
+            {
+                MediafireDownloader.canceledDownload = true;
+                new FlxTimer().start(0.8, function(tmr:FlxTimer)
+                {
+                    close();
+                });
+                trace('Cancel this pls!');
             }
             else
             {
