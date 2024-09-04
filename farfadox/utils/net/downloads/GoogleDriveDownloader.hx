@@ -220,7 +220,7 @@ class GoogleDriveDownloader
                     file.writeBytes(buffer, 0, bytesWritten);
                     bytesDownloaded += bytesWritten;
                     //trace('Downloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
-                    Sys.print('\rDownloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes) + '\n');
+                    Sys.print('\rDownloading! ' + loadedBytes(bytesDownloaded) + '/' + loadedBytes(totalBytes));
                 }
                 catch (e:Dynamic) 
                 {
@@ -346,7 +346,7 @@ class GoogleDriveDownloader
                 } else {
                     try {
                         zipBytesWritten += entry.fileSize;
-                        Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}\n');
+                        Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}');
                         bytes = Reader.unzip(entry);
                         var f = File.write(savePath + entry.fileName, true);
                         f.write(bytes);
