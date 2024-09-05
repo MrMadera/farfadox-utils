@@ -85,6 +85,15 @@ class GoogleDriveDownloader
     public static var customOutputPath:String = '';
 
     /**
+     * If download is complete, this funcion will be executed
+    **/
+    public static var onSuccess:Void -> Null<Void>;
+    /**
+     * If download is canceled, this funcion will be executed
+    **/
+    public static var onCancel:Void -> Null<Void>;
+
+    /**
      * Function which downloads files from an url
      @param url the DIRECT url of the file
     **/
@@ -207,7 +216,6 @@ class GoogleDriveDownloader
             downloadStatus = 'Error creating file...';
             file = null;
             trace('Error creating file!');
-            // TODO: add OnCancel function or similar
             return;
         }
 
@@ -285,6 +293,8 @@ class GoogleDriveDownloader
                     trace('It\'s cancelled so we gotta delete the file :(');
                 }
 
+                if(onCancel != null) onCancel();
+
                 resetInfo();
             }
             else
@@ -313,6 +323,8 @@ class GoogleDriveDownloader
                         FileSystem.rename(defaultOutputPath, trueFile);
                     }
                 }
+
+                if(onSuccess != null) onSuccess();
 
                 checkFormat();
                 resetInfo();

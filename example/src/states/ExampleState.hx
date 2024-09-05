@@ -107,6 +107,14 @@ class ExampleState extends FlxState
             GoogleDriveDownloader.extension = 'zip';
             GoogleDriveDownloader.autoUnzip = true;
             GoogleDriveDownloader.customOutputPath = 'C:/Users/User/Desktop';
+            GoogleDriveDownloader.onSuccess = function()
+            {
+                trace('ON SUCCESS!!!! DOWNLOAD DONE');
+            }
+            GoogleDriveDownloader.onCancel = function()
+            {
+                trace('ON CANCEL!!!! DOWNLOAD CANCELLED');
+            }
             new GoogleDriveDownloader("https://drive.google.com/file/d/1RsTuBQ_7UtlfxxT2H-hlH_3roMVmtzfD/view", 'codename');
             openSubState(new DownloadingSubState(true));
         });
@@ -119,7 +127,15 @@ class ExampleState extends FlxState
             {
                 MediafireDownloader.autoUnzip = true;
                 MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop';
-                new MediafireDownloader("https://www.mediafire.com/file/etmab2imhyxfrd1/bin.zip/file", 'codename');
+                MediafireDownloader.onSuccess = function()
+                {
+                    trace('ON SUCCESS!!!! DOWNLOAD DONE');
+                }
+                MediafireDownloader.onCancel = function()
+                {
+                    trace('ON CANCEL!!!! DOWNLOAD CANCELLED');
+                }
+                new MediafireDownloader("https://www.mediafire.com/file/etmab2imhyxfrd1/bin.zip/file", 'grefg');
                 openSubState(new DownloadingSubState(false));
             });
             button3.antialiasing = true;
