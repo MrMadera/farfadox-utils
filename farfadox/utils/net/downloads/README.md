@@ -37,6 +37,24 @@ GoogleDriveDownloader.autoUnzip = true;
 GoogleDriveDownloader.customOutputPath = 'C:/Users/User/Desktop'; // the output file will be located in the desktop
 new GoogleDriveDownloader('https://docs.google.com/document/d/1PbiTneQ-HJFpDc6EQ8LxcsjFz3UNv3C1OElg6sdUaT4/edit?usp=sharing', 'my_download');
 ```
+You can add some callbacks for some functions
+```haxe
+GoogleDriveDownloader.autoUnzip = true;
+GoogleDriveDownloader.customOutputPath = 'C:/Users/User/Desktop';
+GoogleDriveDownloader.onSuccess = function()
+{
+    trace('Download completed!');
+}
+GoogleDriveDownloader.onCancel = function()
+{
+    trace('Download canceled!');
+}
+GoogleDriveDownloader.onZipSuccess = function()
+{
+    trace('Unzip process completed!');
+}
+new GoogleDriveDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+```
 
 ## MEDIAFIRE
 To use mediafire downloader, you have to instance a new **MediafireDownloader** and put inside two parameters
