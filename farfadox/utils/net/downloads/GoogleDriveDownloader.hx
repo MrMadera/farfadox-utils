@@ -92,6 +92,10 @@ class GoogleDriveDownloader
      * If download is canceled, this funcion will be executed
     **/
     public static var onCancel:Void -> Null<Void>;
+    /**
+     * If unzip process is completed, this funcion will be executed
+    **/
+    public static var onZipSuccess:Void -> Null<Void>;
 
     /**
      * Function which downloads files from an url
@@ -449,6 +453,7 @@ class GoogleDriveDownloader
         trace('Finished unzipped!');
         downloadStatus = 'Done!';
         trace('Saved!');
+        if(onZipSuccess != null) onZipSuccess();
         unzipping = false;
     }
 
