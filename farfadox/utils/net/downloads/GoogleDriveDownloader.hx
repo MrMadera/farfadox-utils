@@ -75,6 +75,9 @@ class GoogleDriveDownloader
     **/
     public static var downloadStatus:String;
 
+    private static var defaultOutputPath:String = '';
+    public static var customOutputPath:String = '';
+
     /**
      * Function which downloads files from an url
      @param url the DIRECT url of the file
@@ -90,15 +93,21 @@ class GoogleDriveDownloader
 
         var index = oldoutputFilePath.lastIndexOf("\\");
 
-        var outputFilePath = oldoutputFilePath.substr(0, index);
-        trace('Path before: ' + outputFilePath);
-        outputFilePath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
+        defaultOutputPath = oldoutputFilePath.substr(0, index);
+        trace('Path before: ' + defaultOutputPath);
+
+        if(customOutputPath != '')
+        {
+            defaultOutputPath = customOutputPath;
+        }
+        
+        defaultOutputPath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
 
         isDownloading = true;
         
         setDomains(url);
 
-        trace('PATH: ' + outputFilePath + ', EXTENSION: ' + extension);
+        trace('PATH: ' + defaultOutputPath + ', EXTENSION: ' + extension);
 
 		var headers:String = "";
 		headers += '\nHost: ${domain}:443';
@@ -160,7 +169,7 @@ class GoogleDriveDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.download'/* + extension*/, ''); 
+        var downloadOutput = StringTools.replace(defaultOutputPath, '/' + fileName + '.download'/* + extension*/, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);
@@ -170,18 +179,18 @@ class GoogleDriveDownloader
         try
         {
             downloadStatus = 'Creating file...';
-            if(!FileSystem.exists(outputFilePath))
+            if(!FileSystem.exists(defaultOutputPath))
             {
-                trace('path $outputFilePath does not exist!');
-                file = File.append(outputFilePath, true);
+                trace('path $defaultOutputPath does not exist!');
+                file = File.append(defaultOutputPath, true);
                 trace('File created');
             }
             else
             {
-                trace('path $outputFilePath exists!');
-                FileSystem.deleteFile(outputFilePath);
+                trace('path $defaultOutputPath exists!');
+                FileSystem.deleteFile(defaultOutputPath);
                 trace('Old file deleted!');
-                file = File.append(outputFilePath, true);
+                file = File.append(defaultOutputPath, true);
                 trace('File created');
             }
         }
@@ -209,10 +218,10 @@ class GoogleDriveDownloader
             trace('Headers map: ' + headers);
 
             #if debug
-                var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-                outputFilePath += 'downloads/headers.txt';
+                var defaultOutputPath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
+                defaultOutputPath += 'downloads/headers.txt';
 
-                File.saveContent(outputFilePath, headers.toString());
+                File.saveContent(defaultOutputPath, headers.toString());
             #end
         }
 		if (headers.exists("content-length")) // take max bytes length
@@ -264,7 +273,7 @@ class GoogleDriveDownloader
 
                 try 
                 {
-                    FileSystem.deleteFile(outputFilePath);
+                    FileSystem.deleteFile(defaultOutputPath);
                     trace('It\'s cancelled so we gotta delete the file :(');
                 }
 
@@ -284,16 +293,16 @@ class GoogleDriveDownloader
 
                 try
                 {
-                    var trueFile = StringTools.replace(outputFilePath, '.download', '.' + extension);
+                    var trueFile = StringTools.replace(defaultOutputPath, '.download', '.' + extension);
                     if(!FileSystem.exists(trueFile))
                     {
-                        FileSystem.rename(outputFilePath, trueFile);
+                        FileSystem.rename(defaultOutputPath, trueFile);
                     }
                     else
                     {
                         FileSystem.deleteFile(trueFile);
                         trace('Deleting old .$extension');
-                        FileSystem.rename(outputFilePath, trueFile);
+                        FileSystem.rename(defaultOutputPath, trueFile);
                     }
                 }
 
@@ -448,10 +457,10 @@ class GoogleDriveDownloader
     
             var index = oldoutputFilePath.lastIndexOf("\\");
     
-            var outputFilePath = oldoutputFilePath.substr(0, index);
-            trace('Path before: ' + outputFilePath);
-            outputFilePath += '/downloads/' + fileName + '.' + extension;
-            unZip(outputFilePath);
+            defaultOutputPath = oldoutputFilePath.substr(0, index);
+            trace('Path before: ' + defaultOutputPath);
+            defaultOutputPath += '/downloads/' + fileName + '.' + extension;
+            unZip(defaultOutputPath);
         }
         else downloadStatus = 'Download complete!';
     }
