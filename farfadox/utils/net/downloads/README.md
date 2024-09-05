@@ -67,3 +67,22 @@ MediafireDownloader.autoUnzip = true;
 MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop'; // the output file will be located in the desktop
 new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
 ```
+
+You can add some callbacks for some functions
+```haxe
+MediafireDownloader.autoUnzip = true;
+MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop';
+MediafireDownloader.onSuccess = function()
+{
+    trace('Download completed!');
+}
+MediafireDownloader.onCancel = function()
+{
+    trace('Download canceled!');
+}
+MediafireDownloader.onZipSuccess = function()
+{
+    trace('Unzip process completed!');
+}
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+```
