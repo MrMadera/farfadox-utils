@@ -30,6 +30,14 @@ GoogleDriveDownloader.autoUnzip = true; // this will unzip your file when the do
 new GoogleDriveDownloader('https://docs.google.com/document/d/1PbiTneQ-HJFpDc6EQ8LxcsjFz3UNv3C1OElg6sdUaT4/edit?usp=sharing', 'my_download');
 ```
 
+You can also set a custom path for the download
+```haxe
+GoogleDriveDownloader.extension = 'zip';
+GoogleDriveDownloader.autoUnzip = true;
+GoogleDriveDownloader.customOutputPath = 'C:/Users/User/Desktop'; // the output file will be located in the desktop
+new GoogleDriveDownloader('https://docs.google.com/document/d/1PbiTneQ-HJFpDc6EQ8LxcsjFz3UNv3C1OElg6sdUaT4/edit?usp=sharing', 'my_download');
+```
+
 ## MEDIAFIRE
 To use mediafire downloader, you have to instance a new **MediafireDownloader** and put inside two parameters
  - URL: You must use the normal url (example url: https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file)
@@ -50,6 +58,12 @@ If you're downloading a .zip file, you can automatically unzip the file
 
 ```haxe
 MediafireDownloader.autoUnzip = true; // this will unzip your file when the download is finished
-new MediafireDownloader('https://docs.google.com/document/d/1PbiTneQ-HJFpDc6EQ8LxcsjFz3UNv3C1OElg6sdUaT4/edit?usp=sharing', 'my_download');
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
 ```
 
+You can also set a custom path for the download
+```haxe
+MediafireDownloader.autoUnzip = true;
+MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop'; // the output file will be located in the desktop
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+```
