@@ -90,6 +90,7 @@ class GoogleDriveDownloader
     **/
     public static function downloadFile(url:String)
     {
+        downloadStatus = 'Starting...';
         canCancelDownloads = true;
         canceledDownload = false;
 
