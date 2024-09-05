@@ -34,6 +34,11 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 	<source path="src" />
 
+
+	<!-- _________________________________Asssets________________________________-->
+	
+	<assets path="fonts" />
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
