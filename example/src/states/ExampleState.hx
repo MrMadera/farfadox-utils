@@ -93,6 +93,7 @@ class ExampleState extends FlxState
 
         var button2:CustomButton = new CustomButton(600, 720, 200, 66, 0xFFFFFFFF, 'Video', 32, 0xFF000000, function()
         {
+            MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop';
             new MediafireDownloader("https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file", 'haxe_gang');
             openSubState(new DownloadingSubState(false));
         });
@@ -103,15 +104,27 @@ class ExampleState extends FlxState
 
         var button3:CustomButton = new CustomButton(820, 650, 200, 66, 0xFFFFFFFF, 'Zip', 32, 0xFF000000, function()
         {
-            GoogleDriveDownloader.extension = 'rar';
+            GoogleDriveDownloader.extension = 'zip';
             GoogleDriveDownloader.autoUnzip = true;
             GoogleDriveDownloader.customOutputPath = 'C:/Users/User/Desktop';
-            new GoogleDriveDownloader("https://drive.google.com/file/d/1ej2CKE5WOViUUtjGpcK2NoqqcbcdpQZb/view", 'launcher');
+            new GoogleDriveDownloader("https://drive.google.com/file/d/1RsTuBQ_7UtlfxxT2H-hlH_3roMVmtzfD/view", 'codename');
             openSubState(new DownloadingSubState(true));
         });
         button3.antialiasing = true;
         button3.bgSelectedColor = 0xFF000000;
         button3.txtSelectedColor = 0xFFFFFFFF;
         add(button3);
+
+        var button3:CustomButton = new CustomButton(820, 720, 200, 66, 0xFFFFFFFF, 'Zip mediafire', 32, 0xFF000000, function()
+            {
+                MediafireDownloader.autoUnzip = true;
+                MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop';
+                new MediafireDownloader("https://www.mediafire.com/file/etmab2imhyxfrd1/bin.zip/file", 'codename');
+                openSubState(new DownloadingSubState(false));
+            });
+            button3.antialiasing = true;
+            button3.bgSelectedColor = 0xFF000000;
+            button3.txtSelectedColor = 0xFFFFFFFF;
+            add(button3);
     }
 }

@@ -74,6 +74,15 @@ class MediafireDownloader
      * String telling you about the current status of the download
     **/
     public static var downloadStatus:String;
+    
+    /**
+     * The default path of the download (downloads folder in the .exe path)
+    **/
+    private static var defaultOutputPath:String = '';
+    /**
+     * The custom path. If equals `''`, the file will be downloaded in the default path
+    **/
+    public static var customOutputPath:String = '';
 
     /**
      * Function which downloads files from an url
@@ -90,16 +99,23 @@ class MediafireDownloader
 
         var index = oldoutputFilePath.lastIndexOf("\\");
 
-        var outputFilePath = oldoutputFilePath.substr(0, index);
-        trace('Path before: ' + outputFilePath);
+        trace('Path before: ' + defaultOutputPath);
         extension = url.substr(url.length - 3, url.length);
-        outputFilePath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
+        defaultOutputPath = oldoutputFilePath.substr(0, index);
+        trace('Path before: ' + defaultOutputPath);
+
+        if(customOutputPath != '')
+        {
+            defaultOutputPath = customOutputPath;
+        }
+        
+        defaultOutputPath += '/downloads/' + fileName + '.download'/* + extension*/; // not yet!!!
 
         isDownloading = true;
         
         setDomains(url);
 
-        trace('PATH: ' + outputFilePath + ', EXTENSION: ' + extension);
+        trace('PATH: ' + defaultOutputPath + ', EXTENSION: ' + extension);
 
 		var headers:String = "";
 		headers += '\nHost: ${domain}:443';
@@ -134,8 +150,9 @@ class MediafireDownloader
         
                 if (httpStatus == null || StringTools.startsWith(httpStatus, "4") || StringTools.startsWith(httpStatus, "5")) 
                 {
+                    if(StringTools.startsWith(httpStatus, "404")) downloadStatus = 'Network error! The file does not exist';
                     trace('Network error! - $httpStatus');
-                    downloadStatus = 'Network error!';
+                    return;
                 }
                 trace('GET method successfully done!');
 
@@ -161,7 +178,7 @@ class MediafireDownloader
         }
 
         // Creating the direcory in case it doesn't exist
-        var downloadOutput = StringTools.replace(outputFilePath, '/' + fileName + '.download'/* + extension*/, ''); 
+        var downloadOutput = StringTools.replace(defaultOutputPath, '/' + fileName + '.download'/* + extension*/, ''); 
         if(!FileSystem.exists(downloadOutput))
         {
             FileSystem.createDirectory(downloadOutput);
@@ -171,18 +188,18 @@ class MediafireDownloader
         try
         {
             downloadStatus = 'Creating file...';
-            if(!FileSystem.exists(outputFilePath))
+            if(!FileSystem.exists(defaultOutputPath))
             {
-                trace('path $outputFilePath does not exist!');
-                file = File.append(outputFilePath, true);
+                trace('path $defaultOutputPath does not exist!');
+                file = File.append(defaultOutputPath, true);
                 trace('File created');
             }
             else
             {
-                trace('path $outputFilePath exists!');
-                FileSystem.deleteFile(outputFilePath);
+                trace('path $defaultOutputPath exists!');
+                FileSystem.deleteFile(defaultOutputPath);
                 trace('Old file deleted!');
-                file = File.append(outputFilePath, true);
+                file = File.append(defaultOutputPath, true);
                 trace('File created');
             }
         }
@@ -264,8 +281,8 @@ class MediafireDownloader
                 
                 try 
                 {
-                    trace('Mediafire file path: $outputFilePath');
-                    FileSystem.deleteFile(outputFilePath);
+                    trace('Mediafire file path: $defaultOutputPath');
+                    FileSystem.deleteFile(defaultOutputPath);
                     trace('It\'s cancelled so we gotta delete the file :(');
                 }
 
@@ -285,16 +302,16 @@ class MediafireDownloader
 
                 try
                 {
-                    var trueFile = StringTools.replace(outputFilePath, '.download', '.' + extension);
+                    var trueFile = StringTools.replace(defaultOutputPath, '.download', '.' + extension);
                     if(!FileSystem.exists(trueFile))
                     {
-                        FileSystem.rename(outputFilePath, trueFile);
+                        FileSystem.rename(defaultOutputPath, trueFile);
                     }
                     else
                     {
                         FileSystem.deleteFile(trueFile);
                         trace('Deleting old .$extension');
-                        FileSystem.rename(outputFilePath, trueFile);
+                        FileSystem.rename(defaultOutputPath, trueFile);
                     }
                 }
 
@@ -416,6 +433,7 @@ class MediafireDownloader
                 } else {
                     try {
                         zipBytesWritten += entry.fileSize;
+                        downloadStatus = 'Unzipping... (${loadedBytes(zipBytesWritten)})';
                         Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}');
                         bytes = Reader.unzip(entry);
                         var f = File.write(savePath + entry.fileName, true);
@@ -469,14 +487,9 @@ class MediafireDownloader
     {
         if(extension == 'zip' && autoUnzip) 
         {
-            var oldoutputFilePath:String = Sys.programPath();
-    
-            var index = oldoutputFilePath.lastIndexOf("\\");
-    
-            var outputFilePath = oldoutputFilePath.substr(0, index);
-            trace('Path before: ' + outputFilePath);
-            outputFilePath += '/downloads/' + fileName + '.' + extension;
-            unZip(outputFilePath);
+            defaultOutputPath = StringTools.replace(defaultOutputPath, '.download', '.' + extension); //defaultOutputPath += '/downloads/' + fileName + '.' + extension;
+            trace(defaultOutputPath);
+            unZip(defaultOutputPath);
         }
         else downloadStatus = 'Download complete!';
     }

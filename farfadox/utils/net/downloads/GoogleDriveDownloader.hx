@@ -75,7 +75,13 @@ class GoogleDriveDownloader
     **/
     public static var downloadStatus:String;
 
+    /**
+     * The default path of the download (downloads folder in the .exe path)
+    **/
     private static var defaultOutputPath:String = '';
+    /**
+     * The custom path. If equals `''`, the file will be downloaded in the default path
+    **/
     public static var customOutputPath:String = '';
 
     /**
@@ -142,8 +148,9 @@ class GoogleDriveDownloader
         
                 if (httpStatus == null || StringTools.startsWith(httpStatus, "4") || StringTools.startsWith(httpStatus, "5")) 
                 {
+                    if(StringTools.startsWith(httpStatus, "404")) downloadStatus = 'Network error! The file does not exist';
                     trace('Network error! - $httpStatus');
-                    downloadStatus = 'Network error!';
+                    return;
                 }
                 trace('GET method successfully done!');
 
@@ -392,7 +399,6 @@ class GoogleDriveDownloader
         try
         {
             var zipBytesWritten:Float = 1;
-            downloadStatus = 'Unzipping...';
             for (entry in filesInZip) 
             {
                 //Sys.print('\rProcessing entry: ${entry.fileName}');
@@ -406,6 +412,7 @@ class GoogleDriveDownloader
                 } else {
                     try {
                         zipBytesWritten += entry.fileSize;
+                        downloadStatus = 'Unzipping... (${loadedBytes(zipBytesWritten)})';
                         Sys.print('\rWritten bytes: ${loadedBytes(zipBytesWritten)}');
                         bytes = Reader.unzip(entry);
                         var f = File.write(savePath + entry.fileName, true);
@@ -453,13 +460,8 @@ class GoogleDriveDownloader
     {
         if(extension == 'zip' && autoUnzip)
         {
-            var oldoutputFilePath:String = Sys.programPath();
-    
-            var index = oldoutputFilePath.lastIndexOf("\\");
-    
-            defaultOutputPath = oldoutputFilePath.substr(0, index);
-            trace('Path before: ' + defaultOutputPath);
-            defaultOutputPath += '/downloads/' + fileName + '.' + extension;
+            defaultOutputPath = StringTools.replace(defaultOutputPath, '.download', '.' + extension); //defaultOutputPath += '/downloads/' + fileName + '.' + extension;
+            trace(defaultOutputPath);
             unZip(defaultOutputPath);
         }
         else downloadStatus = 'Download complete!';
