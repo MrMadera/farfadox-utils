@@ -373,31 +373,38 @@ class MediafireDownloader
     **/
     public static function fetchMediafireData(url:String)
     {
-        var http:Http = new Http(url);
-        http.onData = function(d)
+        try
         {
-            var doc:HtmlDocument = new HtmlDocument(d, true);
-            var titles = doc.find("#downloadButton");
-            var newURL = titles[0].getAttribute("href");
-            @:privateAccess
-            var fileSize = titles[0].get_innerHTML();
-
-            #if debug
-                var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-                outputFilePath += 'html_data.txt';
-
-                File.saveContent(outputFilePath, d);
-            #end
-
-            trace('NEW URL: ' + newURL);
-            trace('File size: ' + fileSize);
-            Thread.create(function() 
+            var http:Http = new Http(url);
+            http.onData = function(d)
             {
-                downloadFile(newURL);
-            });
-            trace("Starting download...");
+                var doc:HtmlDocument = new HtmlDocument(d, true);
+                var titles = doc.find("#downloadButton");
+                var newURL = titles[0].getAttribute("href");
+                @:privateAccess
+                var fileSize = titles[0].get_innerHTML();
+    
+                #if debug
+                    var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
+                    outputFilePath += 'html_data.txt';
+    
+                    File.saveContent(outputFilePath, d);
+                #end
+    
+                trace('NEW URL: ' + newURL);
+                trace('File size: ' + fileSize);
+                Thread.create(function() 
+                {
+                    downloadFile(newURL);
+                });
+                trace("Starting download...");
+            }
+            http.request();
         }
-        http.request();
+        catch(exc)
+        {
+            trace('Fetch error! - $exc');
+        }
     }
 
     /**
