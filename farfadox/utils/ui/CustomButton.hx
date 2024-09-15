@@ -22,6 +22,7 @@ class CustomButton extends FlxSpriteGroup
     public var usingSounds:Bool = false;
     public var selectButtonSoundPath:String = '';
     public var pressButtonSoundPath:String = '';
+    public var getLastCamera:Bool = false;
 
     public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void)
     {
@@ -33,10 +34,15 @@ class CustomButton extends FlxSpriteGroup
 
         super(x, y);
 
+        this.scrollFactor.set();
+        scrollFactor.set();
+
         bg = new FlxSprite().makeGraphic(width, height, _bgColor);
+        bg.scrollFactor.set();
         add(bg);
 
         txt = new FlxText(0, 0, bg.width, text, size);
+        txt.scrollFactor.set();
         txt.setFormat("VCR OSD Mono", size, txtColor, CENTER);
         txt.y = (bg.height / 2) - (txt.height / 2);
         add(txt);
@@ -46,26 +52,55 @@ class CustomButton extends FlxSpriteGroup
 
     override function update(elapsed:Float)
     {
-        if(FlxG.mouse.overlaps(this))
+        var hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
+        //if(FlxG.mouse.overlaps(bg))
+        if(getLastCamera)
         {
-            if(!soundPlayed && usingSounds)
+            if(bg.overlapsPoint(hudMousePos))
             {
-                if(selectButtonSoundPath != '') try { FlxG.sound.play(selectButtonSoundPath); }
-                soundPlayed = true;
+                if(!soundPlayed && usingSounds)
+                {
+                    if(selectButtonSoundPath != '') try { FlxG.sound.play(selectButtonSoundPath); }
+                    soundPlayed = true;
+                }
+                bg.makeGraphic(bgWidth, bgHeight, bgSelectedColor);
+                txt.color = txtSelectedColor;
+                if(FlxG.mouse.justPressed)
+                {
+                    onPress();
+                    if(pressButtonSoundPath != '' && usingSounds) try { FlxG.sound.play(pressButtonSoundPath); }
+                }
             }
-            bg.makeGraphic(bgWidth, bgHeight, bgSelectedColor);
-            txt.color = txtSelectedColor;
-            if(FlxG.mouse.justPressed)
+            else
             {
-                onPress();
-                if(pressButtonSoundPath != '' && usingSounds) try { FlxG.sound.play(pressButtonSoundPath); }
+                bg.makeGraphic(bgWidth, bgHeight, bgColor);
+                txt.color = txtColor;
+                soundPlayed = false;
             }
         }
         else
         {
-            bg.makeGraphic(bgWidth, bgHeight, bgColor);
-            txt.color = txtColor;
-            soundPlayed = false;
+            if(FlxG.mouse.overlaps(bg))
+            {
+                if(!soundPlayed && usingSounds)
+                {
+                    if(selectButtonSoundPath != '') try { FlxG.sound.play(selectButtonSoundPath); }
+                    soundPlayed = true;
+                }
+                bg.makeGraphic(bgWidth, bgHeight, bgSelectedColor);
+                txt.color = txtSelectedColor;
+                if(FlxG.mouse.justPressed)
+                {
+                    onPress();
+                    if(pressButtonSoundPath != '' && usingSounds) try { FlxG.sound.play(pressButtonSoundPath); }
+                }
+            }
+            else
+            {
+                bg.makeGraphic(bgWidth, bgHeight, bgColor);
+                txt.color = txtColor;
+                soundPlayed = false;
+            }
         }
         super.update(elapsed);
     }

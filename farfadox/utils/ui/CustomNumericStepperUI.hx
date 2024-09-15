@@ -26,21 +26,28 @@ class CustomNumericStepperUI extends FlxSpriteGroup
     {
         super(x, y);
 
+        this.scrollFactor.set();
+        scrollFactor.set();
+
         value = initialValue;
 
         stepSize = _stepSize;
 
         bg = new FlxSprite().makeGraphic(40, 20, 0xFFFFFFFF);
+        bg.scrollFactor.set();
         add(bg);
 
         text = new FlxText(0, 2, 0, "" + value, 16);
         text.setFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
+        text.scrollFactor.set();
         add(text);
 
         button_plus = new CustomButton(50, 0, 20, 20, 0xFF000000, '+', 16, 0xFFFFFFFF, onPressButtonPlus);
+        button_plus.scrollFactor.set();
         add(button_plus);
         
         button_minus = new CustomButton(80, 0, 20, 20, 0xFF000000, '-', 16, 0xFFFFFFFF, onPressButtonMinus);
+        button_minus.scrollFactor.set();
         add(button_minus);
     }
 
