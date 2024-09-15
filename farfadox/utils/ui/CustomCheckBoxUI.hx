@@ -15,6 +15,8 @@ class CustomCheckBoxUI extends FlxSpriteGroup
 
     public var checked:Bool;
     public var callback:Void -> Null<Void>;
+    
+    public var getLastCamera:Bool = false;
 
     public function new(x:Float, y:Float, width:Int = 20, height:Int = 20, label:String, size:Int)
     {
@@ -38,11 +40,25 @@ class CustomCheckBoxUI extends FlxSpriteGroup
     {
         super.update(elapsed);
 
-        if(FlxG.mouse.overlaps(this))
+        var hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
+        if(getLastCamera)
         {
-            if(FlxG.mouse.justPressed)
+            if(this.overlapsPoint(hudMousePos))
             {
-                clickCheck();
+                if(FlxG.mouse.justPressed)
+                {
+                    clickCheck();
+                }
+            }
+        }
+        else
+        {
+            if(FlxG.mouse.overlaps(this))
+            {
+                if(FlxG.mouse.justPressed)
+                {
+                    clickCheck();
+                }
             }
         }
     }
