@@ -10,8 +10,8 @@ import farfadox.utils.ui.CustomButton;
 
 class CustomNumericStepperUI extends FlxSpriteGroup
 {
-    var bg:FlxSprite;
-    var text:FlxText;
+    public var bg:FlxSprite;
+    public var text:FlxText;
     public var button_plus:CustomButton;
     public var button_minus:CustomButton;
 

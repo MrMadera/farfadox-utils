@@ -16,6 +16,7 @@ class CustomButton extends FlxSpriteGroup
     public var bgHeight:Int;
     public var onPress:Void -> Void;
     public var bg:FlxSprite;
+    public var image:FlxSprite;
     public var txt:FlxText;
 
     // Optional stuff
@@ -23,14 +24,16 @@ class CustomButton extends FlxSpriteGroup
     public var selectButtonSoundPath:String = '';
     public var pressButtonSoundPath:String = '';
     public var getLastCamera:Bool = false;
+    public var usesImage:Bool = false;
 
-    public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void)
+    public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void, _usesImage:Bool = false, imagePath:Null<Dynamic> = null)
     {
         bgColor = _bgColor;
         txtColor = _txtColor;
         bgWidth = width;
         bgHeight = height;
         onPress = _onPress;
+        usesImage = _usesImage;
 
         super(x, y);
 
@@ -41,11 +44,23 @@ class CustomButton extends FlxSpriteGroup
         bg.scrollFactor.set();
         add(bg);
 
-        txt = new FlxText(0, 0, bg.width, text, size);
-        txt.scrollFactor.set();
-        txt.setFormat("VCR OSD Mono", size, txtColor, CENTER);
-        txt.y = (bg.height / 2) - (txt.height / 2);
-        add(txt);
+        if(imagePath != null && _usesImage)
+        {
+            image = new FlxSprite().loadGraphic(imagePath);
+            image.scrollFactor.set();
+            image.color = txtColor;
+            image.y = (bg.height / 2) - (image.height / 2);
+            image.x = (bg.width / 2) - (image.width / 2);
+            add(image);
+        }
+        else
+        {
+            txt = new FlxText(0, 0, bg.width, text, size);
+            txt.scrollFactor.set();
+            txt.setFormat("VCR OSD Mono", size, txtColor, CENTER);
+            txt.y = (bg.height / 2) - (txt.height / 2);
+            add(txt);
+        }
     }
     
     var soundPlayed:Bool = false;
@@ -64,7 +79,9 @@ class CustomButton extends FlxSpriteGroup
                     soundPlayed = true;
                 }
                 bg.makeGraphic(bgWidth, bgHeight, bgSelectedColor);
-                txt.color = txtSelectedColor;
+                if(usesImage) image.color = txtSelectedColor;
+                else txt.color = txtSelectedColor;
+
                 if(FlxG.mouse.justPressed)
                 {
                     onPress();
@@ -74,7 +91,8 @@ class CustomButton extends FlxSpriteGroup
             else
             {
                 bg.makeGraphic(bgWidth, bgHeight, bgColor);
-                txt.color = txtColor;
+                if(usesImage) image.color = txtColor;
+                else txt.color = txtColor;
                 soundPlayed = false;
             }
         }
