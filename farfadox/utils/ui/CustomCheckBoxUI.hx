@@ -9,9 +9,9 @@ import flixel.FlxObject;
 
 class CustomCheckBoxUI extends FlxSpriteGroup
 {
-    var checkBox:FlxSprite;
+    public var checkBox:FlxSprite;
     public var checkSign:FlxSprite;
-    var text:FlxText;
+    public var text:FlxText;
 
     public var checked:Bool;
     public var callback:Void -> Null<Void>;
