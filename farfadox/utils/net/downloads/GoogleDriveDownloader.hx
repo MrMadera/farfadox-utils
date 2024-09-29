@@ -83,6 +83,10 @@ class GoogleDriveDownloader
      * The custom path. If equals `''`, the file will be downloaded in the default path
     **/
     public static var customOutputPath:String = '';
+    /**
+     * Custom path where you can put your unzipped stuff. If equals `''`, stuff will be unzipped in the `customOutputPath` or `defaultOutputPath`
+    **/
+    public static var unZipCustomPath:String = '';
 
     /**
      * If download is complete, this funcion will be executed
@@ -399,9 +403,27 @@ class GoogleDriveDownloader
         unzipping = true;
 
         var savePath = StringTools.replace(path, '.zip', '/');
-        if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
+        if(unZipCustomPath != null && unZipCustomPath != '')
         {
-            FileSystem.createDirectory(savePath);
+            try
+            {
+                savePath = unZipCustomPath;
+                if(!FileSystem.exists(haxe.io.Path.directory(unZipCustomPath)))
+                {
+                    FileSystem.createDirectory(unZipCustomPath);
+                }
+            }
+            catch(exc)
+            {
+                trace('Unzipping process in your custom path has failed!');
+            }
+        }
+        else
+        {
+            if(!FileSystem.exists(haxe.io.Path.directory(savePath)))
+            {
+                FileSystem.createDirectory(savePath);
+            }
         }
 
         var file = File.read(path);
