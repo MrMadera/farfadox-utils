@@ -244,8 +244,12 @@ class MediafireDownloader
             trace('Headers map: ' + headers);
 
             #if debug
-                var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-                outputFilePath += 'downloads/headers.txt';
+                var oldoutputFilePath:String = Sys.programPath();
+            
+                var index = oldoutputFilePath.lastIndexOf("\\");
+                var outputFilePath = oldoutputFilePath.substr(0, index);
+
+                outputFilePath += '/downloads/headers.txt';
 
                 File.saveContent(outputFilePath, headers.toString());
             #end
@@ -389,8 +393,11 @@ class MediafireDownloader
                 var fileSize = titles[0].get_innerHTML();
     
                 #if debug
-                    var outputFilePath:String = StringTools.replace(Sys.programPath(), 'farfadox-utils-example.exe', '');
-                    outputFilePath += 'html_data.txt';
+                    var oldoutputFilePath:String = Sys.programPath();
+                
+                    var index = oldoutputFilePath.lastIndexOf("\\");
+                    var outputFilePath = oldoutputFilePath.substr(0, index);
+                    outputFilePath += '/html_data.txt';
     
                     File.saveContent(outputFilePath, d);
                 #end
