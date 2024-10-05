@@ -4,8 +4,8 @@
     "license": "MIT",
     "tags": ["haxe"],
     "description": "farfadox-utils is a custom library used for Farfadox's Nether Rap",
-    "version": "0.2.0",
-    "releasenote": "New features",
+    "version": "0.3.0",
+    "releasenote": "Sweet features",
     "contributors": ["MrMadera", "Adrim24"],
     "dependencies": 
     {
