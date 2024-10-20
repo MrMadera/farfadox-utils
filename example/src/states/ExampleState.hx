@@ -6,6 +6,7 @@ import farfadox.utils.net.downloads.GoogleDriveDownloader;
 import farfadox.utils.ui.gamepad.GamepadInstructions;
 import farfadox.utils.net.ConnectionChecker;
 import farfadox.utils.ui.CustomButton;
+import farfadox.utils.ui.CustomNumericStepperUI;
 
 import flixel.FlxState;
 import flixel.util.FlxTimer;
@@ -29,6 +30,8 @@ class ExampleState extends FlxState
     public var right_bumper_button_ps4:GamepadInstructions;
     public var left_trigger_button_ps4:GamepadInstructions;
     public var right_trigger_button_ps4:GamepadInstructions;
+
+    public var stepper:CustomNumericStepperUI;
 
     public var connectionAvaible:FlxText;
 
@@ -83,6 +86,15 @@ class ExampleState extends FlxState
         
         right_trigger_button_ps4 = new GamepadInstructions(350, 150, 'Right trigger button', 30, RIGHT_TRIGGER, true, true);
         add(right_trigger_button_ps4);
+
+        stepper = new CustomNumericStepperUI(800, 600, 0.005, 0.05);
+		stepper.minValue = 0.005;
+		stepper.maxValue = 0.5;
+		stepper.callback = function()
+		{
+
+		}
+        add(stepper);
 
         if(ConnectionChecker.checkConnection(BOTH))
         {
