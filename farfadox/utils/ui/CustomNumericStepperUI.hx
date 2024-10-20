@@ -17,7 +17,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
 
     public var maxValue:Float = 400;
     public var minValue:Float = 1;
-    public var value:Float;
+    public var value:Float = 0;
     public var callback:Void -> Null<Void>;
 
     public var stepSize:Float;
@@ -56,7 +56,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
         if(value < maxValue)
         {
             value += stepSize;
-            FlxMath.roundDecimal(value, 1);
+            value = FlxMath.roundDecimal(value, 3);
             if(callback != null) callback();
             updateText();
         }
@@ -67,7 +67,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
         if(value > minValue)
         {
             value -= stepSize;
-            FlxMath.roundDecimal(value, 1);
+            value = FlxMath.roundDecimal(value, 3);
             if(callback != null) callback();
             updateText();
         }
