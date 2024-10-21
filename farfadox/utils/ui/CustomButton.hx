@@ -25,6 +25,7 @@ class CustomButton extends FlxSpriteGroup
     public var pressButtonSoundPath:String = '';
     public var getLastCamera:Bool = false;
     public var usesImage:Bool = false;
+    public var cameraToGet:Int = 1;
 
     public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void, _usesImage:Bool = false, imagePath:Null<Dynamic> = null)
     {
@@ -67,7 +68,7 @@ class CustomButton extends FlxSpriteGroup
 
     override function update(elapsed:Float)
     {
-        var hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
+        var hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - cameraToGet]);
         //if(FlxG.mouse.overlaps(bg))
         if(getLastCamera)
         {
