@@ -33,7 +33,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
 
         stepSize = _stepSize;
 
-        bg = new FlxSprite().makeGraphic(40, 20, 0xFFFFFFFF);
+        bg = new FlxSprite().makeGraphic(60, 20, 0xFFFFFFFF);
         bg.scrollFactor.set();
         add(bg);
 
@@ -42,11 +42,11 @@ class CustomNumericStepperUI extends FlxSpriteGroup
         text.scrollFactor.set();
         add(text);
 
-        button_plus = new CustomButton(50, 0, 20, 20, 0xFF000000, '+', 16, 0xFFFFFFFF, onPressButtonPlus);
+        button_plus = new CustomButton(70, 0, 20, 20, 0xFF000000, '+', 16, 0xFFFFFFFF, onPressButtonPlus);
         button_plus.scrollFactor.set();
         add(button_plus);
         
-        button_minus = new CustomButton(80, 0, 20, 20, 0xFF000000, '-', 16, 0xFFFFFFFF, onPressButtonMinus);
+        button_minus = new CustomButton(100, 0, 20, 20, 0xFF000000, '-', 16, 0xFFFFFFFF, onPressButtonMinus);
         button_minus.scrollFactor.set();
         add(button_minus);
     }
