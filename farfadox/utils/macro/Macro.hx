@@ -22,15 +22,21 @@ class Macro {
 
         log('Checking farfadox-utils version...');
 
-        var v:Bool = false;
+        var v:Bool = true;
         var newVer:String = '';
-        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/main/gitVer.txt');
+        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/refs/heads/main/gitVer.txt');
         http.onData = function (d) 
         {
             newVer = d;
             if(currentVersion == d) v = true;
+            else false;
         }
-        http.request();
+        http.onError = function(e)
+        {
+            log('The version could not be loaded.');
+            //Sys.exit(1);
+        }
+        http.request(false);
 
         if(v)
         {
