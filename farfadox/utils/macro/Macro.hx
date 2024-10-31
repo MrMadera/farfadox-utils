@@ -24,7 +24,7 @@ class Macro {
 
         var v:Bool = false;
         var newVer:String = '';
-        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/refs/heads/main/gitVer');
+        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/main/gitVer.txt');
         http.onData = function (d) 
         {
             newVer = d;
