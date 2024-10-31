@@ -1,7 +1,7 @@
 package farfadox.utils.macro;
 
-import haxe.Http;
 import sys.io.Process;
+import farfadox.Version;
 
 using StringTools;
 
@@ -10,7 +10,7 @@ class Macro {
     public static var currentVersion:String = '0.3.0';
 
     macro
-    public static function initiateMacro() 
+    public static function initiateMacro()
     {
         function checkAnswer()
         {
@@ -22,21 +22,8 @@ class Macro {
 
         log('Checking farfadox-utils version...');
 
-        var v:Bool = true;
-        var newVer:String = '';
-        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/refs/heads/main/gitVer.txt');
-        http.onData = function (d) 
-        {
-            newVer = d;
-            if(currentVersion == d) v = true;
-            else false;
-        }
-        http.onError = function(e)
-        {
-            log('The version could not be loaded.');
-            //Sys.exit(1);
-        }
-        http.request(false);
+        var v:Bool = Version.fetchVersion();
+        var newVer:String = Version.newVer;
 
         if(v)
         {
