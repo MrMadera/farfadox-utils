@@ -12,6 +12,7 @@ class Macro {
     macro
     public static function initiateMacro()
     {
+        #if !debug
         function checkAnswer()
         {
             if (["yes", "y"].contains(Sys.stdin().readLine().toLowerCase().trim()))
@@ -80,6 +81,7 @@ class Macro {
                 log('Starting with current version.');
             }
         }
+        #end
 
         return macro {};
     }
