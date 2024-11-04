@@ -1,13 +1,14 @@
 package farfadox.utils.macro;
 
 import sys.io.Process;
+import sys.io.File;
 import farfadox.Version;
 
 using StringTools;
 
 class Macro {
 
-    public static var currentVersion:String = '0.3.0';
+    public static var currentVersion:String = File.getContent('gitVer.txt').trim();
 
     macro
     public static function initiateMacro()

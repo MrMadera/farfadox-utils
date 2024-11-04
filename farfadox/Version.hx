@@ -22,10 +22,6 @@ class Version
         process.close();
 
         var downloadedVersion = File.getContent("gitVer.txt").trim();
-        #if debug
-            Sys.println('[DEBUG] Version: $downloadedVersion');
-        #end
-
         if(downloadedVersion != Macro.currentVersion)
         {
             newVer = downloadedVersion;
