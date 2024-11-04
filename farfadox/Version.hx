@@ -1,6 +1,11 @@
 package farfadox;
 
+import farfadox.utils.macro.Macro;
 import haxe.Http;
+import sys.io.Process;
+import sys.io.File;
+
+using StringTools;
 
 class Version
 {
@@ -8,22 +13,27 @@ class Version
 
     public static function fetchVersion():Bool
     {
-        var v = false;
-        var http:Http = new Http('https://raw.githubusercontent.com/MrMadera/farfadox-utils/main/gitVer.txt');
-        http.onData = function (d) 
-        {
-            newVer = d;
-            if(farfadox.utils.macro.Macro.currentVersion == d) v = true;
-            else false;
-        }
-        http.onError = function(e)
-        {
-            v = true;
-            Sys.println('There was an error getting the last update.');
-            //Sys.exit(1);
-        }
-        http.request(false);
+        var url = "https://raw.githubusercontent.com/MrMadera/farfadox-utils/main/gitVer.txt";
 
-        return v;
+        var command = "curl";
+        var args = ["-o", "gitVer.txt", url];
+
+        var process = new Process(command, args);
+        process.close();
+
+        var downloadedVersion = File.getContent("gitVer.txt").trim();
+        #if debug
+            Sys.println('[DEBUG] Version: $downloadedVersion');
+        #end
+
+        if(downloadedVersion != Macro.currentVersion)
+        {
+            newVer = downloadedVersion;
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
     }
 }

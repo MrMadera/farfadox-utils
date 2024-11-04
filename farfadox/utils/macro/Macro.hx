@@ -26,6 +26,8 @@ class Macro {
         var v:Bool = Version.fetchVersion();
         var newVer:String = Version.newVer;
 
+        Sys.sleep(0.2); // lil sleep so macro can get the shit
+
         if(v)
         {
             log('You have the lastest update.');
