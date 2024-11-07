@@ -44,39 +44,17 @@ class Macro {
                 var GOR = Sys.stdin().readLine();
                 if(["github"].contains(GOR.toLowerCase().trim()))
                 {
-                    var p = new Process("haxelib remove farfadox-utils && haxelib git farfadox-utils https://github.com/MrMadera/farfadox-utils.git");
-                    while (true) 
-                    {
-                        var o = p.stdout.readLine();
-                        if (o.trim() == "Done")
-                        {
-                            p.close();
-                            break;
-                        }
-                        p = null;
-
-                        log();
-                        log("Ready. (Restart the compilation)");
-                        Sys.exit(1);
-                    }
+                    var p = Sys.command("haxelib remove farfadox-utils && haxelib --never git farfadox-utils https://github.com/MrMadera/farfadox-utils.git");
+                    log();
+                    log("Ready. (Restart the compilation)");
+                    Sys.exit(1);
                 }
                 else if(["release"].contains(GOR.toLowerCase().trim()))
                 {
-                    var p = new Process("haxelib remove farfadox-utils && haxelib install farfadox-utils");
-                    while (true) 
-                    {
-                        var o = p.stdout.readLine();
-                        if (o.trim() == "Done")
-                        {
-                            p.close();
-                            break;
-                        }
-                        p = null;
-
-                        log();
-                        log("Ready. (Restart the compilation)");
-                        Sys.exit(1);
-                    }
+                    var p = Sys.command("haxelib remove farfadox-utils && haxelib --never install farfadox-utils");
+                    log();
+                    log("Ready. (Restart the compilation)");
+                    Sys.exit(1);
                 }
             }
             else
