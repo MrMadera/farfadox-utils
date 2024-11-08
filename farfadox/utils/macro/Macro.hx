@@ -7,13 +7,13 @@ import farfadox.Version;
 using StringTools;
 
 class Macro {
-
-    public static var currentVersion:String = File.getContent('gitVer.txt').trim();
+    public static var currentVersion:String = '0.4.1';
 
     macro
     public static function initiateMacro()
     {
         #if (!SKIP_MACRO)
+
         function checkAnswer()
         {
             if (["yes", "y"].contains(Sys.stdin().readLine().toLowerCase().trim()))

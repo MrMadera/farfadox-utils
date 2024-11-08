@@ -1,5 +1,6 @@
 package farfadox;
 
+import sys.FileSystem;
 import farfadox.utils.macro.Macro;
 import haxe.Http;
 import sys.io.Process;
@@ -21,14 +22,26 @@ class Version
         var process = new Process(command, args);
         process.close();
 
+        
+        #if debug
+        Sys.println('[DEBUG]: Waiting...');
+        #end
+        Sys.sleep(0.15);
+
         var downloadedVersion = File.getContent("gitVer.txt").trim();
+        #if debug
+            Sys.println('[DEBUG]: Version => $downloadedVersion');
+            Sys.println('[DEBUG]: Deleted temp file');
+        #end
         if(downloadedVersion != Macro.currentVersion)
         {
+            FileSystem.deleteFile('gitVer.txt');
             newVer = downloadedVersion;
             return false;
         }
         else 
         {
+            FileSystem.deleteFile('gitVer.txt');
             return true;
         }
     }
