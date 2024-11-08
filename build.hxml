@@ -1,0 +1,8 @@
+-cp farfadox
+
+--each
+
+-main farfadox.utils.macro.Build
+-neko run.n
+
+--next
