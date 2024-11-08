@@ -3,6 +3,7 @@
     "url" : "https://github.com/MrMadera/farfadox-utils",
     "license": "MIT",
     "tags": ["haxe"],
+    "main": "farfadox.utils.macro.Build",
     "description": "farfadox-utils is a custom library used for Farfadox's Nether Rap",
     "version": "0.3.0",
     "releasenote": "Sweet features",

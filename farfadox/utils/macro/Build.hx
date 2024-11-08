@@ -1,6 +1,7 @@
 package farfadox.utils.macro;
 
 import sys.io.Process;
+import sys.io.File;
 
 using StringTools;
 
@@ -18,9 +19,9 @@ class Build
         switch (args[0]) {
             case "build":
                 build();
-            case "command2":
-                // Define another command
-                Sys.println("Executing command2...");
+            case "setup":
+                Sys.println("Setup started!");
+                setup();
             default:
                 Sys.println("Unknown command: " + args[0]);
         }    
@@ -55,7 +56,6 @@ class Build
                 log('Bulding at ${Date.now()}');
 
                 var curDirectory = Sys.args().copy().pop();
-                log('Setting directory to $curDirectory');
                 Sys.setCwd(curDirectory);
 
                 var command:Dynamic;
@@ -69,6 +69,9 @@ class Build
                 // mac whit
                 log('Bulding at ${Date.now()}');
 
+                var curDirectory = Sys.args().copy().pop();
+                Sys.setCwd(curDirectory);
+
                 var command:Dynamic;
                 if(isBuilding) command = Sys.command('lime build mac -D SKIP_MACRO');
                 else command = Sys.command('lime test mac -D SKIP_MACRO');
@@ -79,6 +82,9 @@ class Build
             {
                 // linux shit
                 log('Bulding at ${Date.now()}');
+                
+                var curDirectory = Sys.args().copy().pop();
+                Sys.setCwd(curDirectory);
 
                 var command:Dynamic;
                 if(isBuilding) command = Sys.command('lime build linux -D SKIP_MACRO');
@@ -92,6 +98,24 @@ class Build
             log("Aborting...");
             Sys.exit(1);
         }
+    }
+
+    static function setup() 
+    {
+        var cmdContent = '@haxelib --global run farfadox-utils %*\n';
+
+        var haxePath = Sys.getEnv("HAXEPATH");
+        if(haxePath == null)
+        {
+            // aborting...
+            log("ERROR: HAXEPATH is not defined. Aborting...");
+            Sys.exit(1);
+        }
+        var filePath = haxePath + '/farfadox-utils.cmd';
+
+        File.saveContent(filePath, cmdContent);
+
+        log("Done.");
     }
 
     public static function log(?log:String = "") {
