@@ -5,8 +5,8 @@
     "tags": ["haxe"],
     "main": "farfadox.utils.macro.Build",
     "description": "farfadox-utils is a custom library used for Farfadox's Nether Rap",
-    "version": "0.3.0",
-    "releasenote": "Sweet features",
+    "version": "0.4.0",
+    "releasenote": "Macro features and build helper (BETA)",
     "contributors": ["MrMadera", "Adrim24"],
     "dependencies": 
     {
