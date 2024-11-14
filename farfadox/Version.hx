@@ -16,6 +16,8 @@ class Version
     {
         var url = "https://raw.githubusercontent.com/MrMadera/farfadox-utils/main/gitVer.txt";
 
+        if(!FileSystem.exists('gitVer.txt')) File.saveContent('gitVer.txt', Macro.currentVersion);
+
         var command = "curl";
         var args = ["-o", "gitVer.txt", url];
 
