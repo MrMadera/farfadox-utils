@@ -21,8 +21,9 @@ class CustomNumericStepperUI extends FlxSpriteGroup
     public var callback:Void -> Null<Void>;
 
     public var stepSize:Float;
+    public var customTextFont:String = '';
 
-    public function new(x:Float, y:Float, _stepSize:Float, initialValue:Float)
+    public function new(x:Float, y:Float, _stepSize:Float, initialValue:Float, _customFont:String = '')
     {
         super(x, y);
 
@@ -30,6 +31,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
         scrollFactor.set();
 
         value = initialValue;
+        customTextFont = _customFont;
 
         stepSize = _stepSize;
 
@@ -38,7 +40,7 @@ class CustomNumericStepperUI extends FlxSpriteGroup
         add(bg);
 
         text = new FlxText(0, 2, 0, "" + value, 16);
-        text.setFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
+        text.setFormat(customTextFont != '' ? customTextFont : 'VCR OSD Mono', 16, FlxColor.BLACK, CENTER);
         text.scrollFactor.set();
         add(text);
 

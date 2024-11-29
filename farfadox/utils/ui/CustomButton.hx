@@ -26,8 +26,9 @@ class CustomButton extends FlxSpriteGroup
     public var getLastCamera:Bool = false;
     public var usesImage:Bool = false;
     public var cameraToGet:Int = 1;
+    public var customTextFont:String = '';
 
-    public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void, _usesImage:Bool = false, imagePath:Null<Dynamic> = null)
+    public function new(x:Float, y:Float, width:Int, height:Int, _bgColor:FlxColor, text:String, size:Int, _txtColor:FlxColor, _onPress:Void -> Void, _usesImage:Bool = false, imagePath:Null<Dynamic> = null, _customFont:String = '')
     {
         bgColor = _bgColor;
         txtColor = _txtColor;
@@ -35,6 +36,7 @@ class CustomButton extends FlxSpriteGroup
         bgHeight = height;
         onPress = _onPress;
         usesImage = _usesImage;
+        customTextFont = _customFont;
 
         super(x, y);
 
@@ -58,7 +60,7 @@ class CustomButton extends FlxSpriteGroup
         {
             txt = new FlxText(0, 0, bg.width, text, size);
             txt.scrollFactor.set();
-            txt.setFormat("VCR OSD Mono", size, txtColor, CENTER);
+            txt.setFormat(customTextFont != '' ? customTextFont : 'VCR OSD Mono', size, txtColor, CENTER);
             txt.y = (bg.height / 2) - (txt.height / 2);
             add(txt);
         }

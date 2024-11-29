@@ -17,10 +17,13 @@ class CustomCheckBoxUI extends FlxSpriteGroup
     public var callback:Void -> Null<Void>;
     
     public var getLastCamera:Bool = false;
+    public var customTextFont:String = '';
 
-    public function new(x:Float, y:Float, width:Int = 20, height:Int = 20, label:String, size:Int)
+    public function new(x:Float, y:Float, width:Int = 20, height:Int = 20, label:String, size:Int, _customFont:String = '')
     {
         super(x, y);
+
+        customTextFont = _customFont;
 
         checkBox = new FlxSprite().makeGraphic(width, height, 0xFFFFFFFF);
         add(checkBox);
@@ -30,7 +33,7 @@ class CustomCheckBoxUI extends FlxSpriteGroup
         add(checkSign);
 
         text = new FlxText(25, 2, 0, label, size);
-		text.setFormat("VCR OSD Mono", size, FlxColor.WHITE, LEFT);
+		text.setFormat(customTextFont != '' ? customTextFont : 'VCR OSD Mono', size, FlxColor.WHITE, LEFT);
         add(text);
 
         //centerOnSprite(text, checkBox, false, true);
