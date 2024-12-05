@@ -53,7 +53,7 @@ GoogleDriveDownloader.onZipSuccess = function()
 {
     trace('Unzip process completed!');
 }
-new GoogleDriveDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+new GoogleDriveDownloader('https://docs.google.com/document/d/1PbiTneQ-HJFpDc6EQ8LxcsjFz3UNv3C1OElg6sdUaT4/edit?usp=sharing', 'my_download');
 ```
 
 ## MEDIAFIRE
@@ -64,7 +64,7 @@ To use mediafire downloader, you have to instance a new **MediafireDownloader** 
 ### EXAMPLE
 Then instance the downloader:
 ```haxe
-new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/example.mp4/file', 'my_download');
 // Remember that urls which do not start with /file/d won't work! 
 ```
 
@@ -76,14 +76,14 @@ If you're downloading a .zip file, you can automatically unzip the file
 
 ```haxe
 MediafireDownloader.autoUnzip = true; // this will unzip your file when the download is finished
-new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/example.mp4/file', 'my_download');
 ```
 
 You can also set a custom path for the download
 ```haxe
 MediafireDownloader.autoUnzip = true;
 MediafireDownloader.customOutputPath = 'C:/Users/User/Desktop'; // the output file will be located in the desktop
-new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/example.mp4/file', 'my_download');
 ```
 
 You can add some callbacks for some functions
@@ -102,5 +102,5 @@ MediafireDownloader.onZipSuccess = function()
 {
     trace('Unzip process completed!');
 }
-new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/lider_de_la_haxe_gang_ligero.mp4/file', 'my_download');
+new MediafireDownloader('https://www.mediafire.com/file/r9d03vvig4ayjoj/example.mp4/file', 'my_download');
 ```
