@@ -3,6 +3,8 @@
 
 ⚠️**DISCLAIMER: This library is a demo and is not intended for general public use** ⚠️
 
+⚠️⚠️⚠️**A NEW LIBRARY WILL REPLACE THIS ONE** ([extended-flixel](https://github.com/MrMadera/extended-flixel))⚠️⚠️⚠️
+
 In other words, this isn’t a polished library meant for professional projects. It’s primarily available for those curious about its specific functionalities.
 
 ## Download
