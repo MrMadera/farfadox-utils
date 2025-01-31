@@ -10,8 +10,8 @@
     "contributors": ["MrMadera", "Adrim24"],
     "dependencies": 
     {
-        "flixel": "5.5.0",
-        "openfl": "9.3.2",
+        "flixel": "5.9.0",
+        "openfl": "9.3.4",
         "HtmlParser": "3.4.0"
     }
 }
